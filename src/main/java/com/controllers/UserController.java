@@ -1,0 +1,54 @@
+package com.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.entities.User;
+import com.services.Implementations.UserService;
+
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+	@Autowired
+	UserService userService;
+	
+	@PostMapping("/addUser")
+	public String addUser(@RequestBody User user) {
+		return userService.addUser(user);
+	}
+	@PutMapping("/updateUser")
+	public String updateUser(@RequestBody User user) {
+		return userService.updateUser(user);
+	}
+	@DeleteMapping("/deleteUser")
+	public String deleteUser(@RequestBody User user) {
+		return userService.deleteUser(user);
+	}
+	@GetMapping("/retrieveUserByUsername")
+	public User retrieveUserByUsername(@RequestBody String username) {
+		return userService.retrieveUserByUsername(username);
+	}
+	@GetMapping("/retrieveUserByEmail")
+	public User retrieveUserByEmail(@RequestBody String email) {
+		return userService.retrieveUserByEmail(email);
+	}
+	@GetMapping("/retrieveAllUsers")
+	public List<User> retrieveAllUsers() {
+		return userService.retrieveAllUsers();
+	}
+	@GetMapping("/loadUserByUsername")
+	public UserDetails loadUserByUsername(String username) {
+		return userService.loadUserByUsername(username);
+	}
+	
+}
