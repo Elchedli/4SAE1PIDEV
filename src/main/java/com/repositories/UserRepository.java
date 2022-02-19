@@ -12,14 +12,15 @@ import com.entities.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 	User findUserByUsername(String username);
+
 	User findUserByEmail(String email);
+
 	@Modifying
-	@Query("update User u set u.username =:username, u.password =:password where u.email =:email")
-	User updateUser(@Param("username") String username, @Param("email") String email,
-			@Param("password") String password);
+	@Query("update User u set u.username= :username, u.password= :password, u.role= :role where u.email= :email")
+	void updateUser(@Param("username") String username, @Param("password") String password, @Param("role") Role role,
+			@Param("email") String email);
+
 	@Query(value = "SELECT role FROM User u WHERE u.username= :username", nativeQuery = true)
 	Role findRoleUserByUsername(@Param("username") String username);
-
-	
 
 }

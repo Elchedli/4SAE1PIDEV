@@ -2,7 +2,6 @@ package com.services.Interfaces;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.entities.User;
 
@@ -13,5 +12,4 @@ public interface IUserService {
 	User retrieveUserByUsername(String username);
 	User retrieveUserByEmail(String email);
 	List<User> retrieveAllUsers();
-	UserDetails loadUserByUsername(String username);	
 }

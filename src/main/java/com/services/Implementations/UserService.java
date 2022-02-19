@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Utils.EmailValide;
 import com.entities.User;
@@ -19,8 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserService implements IUserService {
+public class UserService implements IUserService, UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 	BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -54,18 +57,18 @@ public class UserService implements IUserService {
 	@Override
 	public String updateUser(User user) {
 		String msg = "";
-		User userExistsU = retrieveUserByUsername(user.getUsername());
+		// User userExistsU = retrieveUserByUsername(user.getUsername());
 		User userExistsE = retrieveUserByEmail(user.getEmail());
 
 		if (userExistsE != null) {
-			if (userExistsU != null) {
-				msg = "username is not available";
-				log.error("username {} is not available", user.getUsername());
-			} else {
-				userRepository.updateUser(user.getUsername(), user.getEmail(),
-						bCryptPasswordEncoder.encode(user.getPassword()));
+			if (userExistsE.getUsername().equals(user.getUsername())) {
+				userRepository.updateUser(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
+						user.getRole(), user.getEmail());
 				msg = "user updated";
 				log.info("user updated");
+			} else {
+				msg = "username is not available";
+				log.error("username {} is not available", user.getUsername());
 			}
 		} else {
 			msg = "user not found";
@@ -78,9 +81,9 @@ public class UserService implements IUserService {
 	public String deleteUser(User user) {
 		String msg = "";
 		User userExists = retrieveUserByUsername(user.getUsername());
-		
-		if(userExists != null){
-			userRepository.delete(user);
+
+		if (userExists != null) {
+			userRepository.delete(userExists);
 			msg = "user deleted";
 			log.info("User {} deleted.", user.getUsername());
 		} else {
@@ -92,12 +95,26 @@ public class UserService implements IUserService {
 
 	@Override
 	public User retrieveUserByUsername(String username) {
-		return userRepository.findUserByUsername(username);
+		User userExists = userRepository.findUserByUsername(username);
+		if (userExists != null) {
+			log.info("User {}", userExists.getUsername());
+			return userExists;
+		} else {
+			log.error("User {} not found.", username);
+			return null;
+		}
 	}
 
 	@Override
 	public User retrieveUserByEmail(String email) {
-		return userRepository.findUserByEmail(email);
+		User userExists = userRepository.findUserByEmail(email);
+		if (userExists != null) {
+			log.info("User {}", userExists.getEmail());
+			return userExists;
+		} else {
+			log.error("User {} not found.", email);
+			return null;
+		}
 	}
 
 	@Override

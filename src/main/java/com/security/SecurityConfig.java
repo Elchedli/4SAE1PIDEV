@@ -36,11 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.authenticated()
 		.and()
 		.httpBasic().and().csrf().disable();*/
+		CustomAuthenticationFIlter customAuthenticationFIlter = new CustomAuthenticationFIlter(authenticationManagerBean());
+		customAuthenticationFIlter.setFilterProcessesUrl("/voyageAffaires/login");
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers("/user/**").permitAll();
 		http.authorizeRequests().anyRequest().authenticated();
-		http.addFilter(new CustomAuthenticationFIlter(authenticationManagerBean()));
+		http.addFilter(customAuthenticationFIlter);
 		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 		/*http.authorizeRequests().antMatchers("/registration/**").permitAll()
 				.antMatchers("/get**}").access("hasRole('ADMIN')")
