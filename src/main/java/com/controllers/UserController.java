@@ -25,6 +25,7 @@ import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("/user")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserController {
 	@Autowired
 	UserService userService;
