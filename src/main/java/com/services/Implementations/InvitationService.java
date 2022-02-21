@@ -87,8 +87,15 @@ public class InvitationService implements IInvitationService{
 	}
 
 	@Override
-	public Invitation retrieveInvitationBySubject(String subject) {
-		return invitationRepository.findInvitationBySujet(subject);
+	public Invitation retrieveInvitationBySujet(String sujet) {
+		Invitation invitationExists = invitationRepository.findInvitationBySujet(sujet);
+		if (invitationExists != null) {
+			log.info("Invitation {}", invitationExists.getSujet());
+			return invitationExists;
+		} else {
+			log.error("Invitation {} not found.", sujet);
+			return null;
+		}
 	}
 
 	@Override

@@ -43,9 +43,9 @@ public class InvitationController {
 		return invitationService.deleteInvitation(invitation);
 	}
 
-	@GetMapping("/retrieveInvitationBySubject")
-	public Invitation retrieveInvitationBySubject(@RequestBody Subject subject) {
-		return invitationService.retrieveInvitationBySubject(subject.getSubject());
+	@GetMapping("/retrieveInvitationBySujet")
+	public Invitation retrieveInvitationBySujet(@RequestBody Subject subject) {
+		return invitationService.retrieveInvitationBySujet(subject.getSujet());
 	}
 
 	@GetMapping("/retrieveAllInvitations")
@@ -60,5 +60,5 @@ public class InvitationController {
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class Subject {
-	String subject;
+	String sujet;
 }
