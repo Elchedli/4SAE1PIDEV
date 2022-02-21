@@ -18,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,8 +48,8 @@ public class User implements Serializable, UserDetails {
 	Boolean enabled = false;
 	@Enumerated(EnumType.STRING)
 	Role role;
-	/*@OneToMany(cascade=CascadeType.ALL)
-	List<Invitation> invitations;*/
+	@OneToMany(cascade = CascadeType.ALL)
+	List<Invitation> invitations;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

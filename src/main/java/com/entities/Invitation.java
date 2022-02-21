@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
-public class Invitation implements Serializable {
+public class Invitation implements Serializable{
 	/**
 	 * 
 	 */
@@ -30,8 +31,9 @@ public class Invitation implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	String from;
-	String to;
-	String subject;
+	String de;
+	String pour;
+	String sujet;
 	String message;
+	
 }

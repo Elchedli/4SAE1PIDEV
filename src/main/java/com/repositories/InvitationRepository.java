@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.entities.Invitation;
 @Repository
 public interface InvitationRepository extends CrudRepository<Invitation, Long>{
-	Invitation findInvitationBySubject(String subject);
+	Invitation findInvitationBySujet(String sujet);
 	@Modifying
-	@Query("update Invitation i set i.message= :message where i.subject= :subject")
-	void updateInvitation(@Param("message") String message, @Param("subject") String subject);
+	@Query("update Invitation i set i.message= :message where i.sujet= :sujet")
+	void updateInvitation(@Param("message") String message, @Param("sujet") String sujet);
 
 }
