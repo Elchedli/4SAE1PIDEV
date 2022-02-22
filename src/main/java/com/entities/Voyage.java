@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,13 +40,16 @@ public class Voyage implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idVoyage;
 	@Temporal(TemporalType.DATE)
+	private Date dateSortie;
+	@Temporal(TemporalType.DATE)
 	private Date dateArrivee;
 	@Temporal(TemporalType.DATE)
-	private Date dateSortie;
+	private Date dateRetour;
 	String destination;
 	String lieuDepart;
-	String lieuArrivee;
 	String titreVoyage;
+	String domain;
+	@Column(length = 9999999)
 	String programme;
 	float tarif;
 	//@JsonIgnore

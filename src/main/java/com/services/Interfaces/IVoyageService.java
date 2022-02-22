@@ -9,7 +9,7 @@ public interface IVoyageService {
 	void ajoutVoyage(Voyage voyage);
 	void suppVoyage(Voyage voyage);
 	void modifierVoyage(int id, Voyage voyage);
-	List<Voyage> getAllEntreprises();
-	Optional<Voyage> getEntrepriseById(int id);
-	Voyage findByUsername(String username);
+	List<Voyage> getAllVoyage();
+	Optional<Voyage> getVoyageById(int id);
+	List<Voyage> findByDestination(String destination);
 }

@@ -24,32 +24,32 @@ public class VoyageServiceImpl implements IVoyageService {
 
 	@Override
 	public void suppVoyage(Voyage voyage) {
-		voyageRepository.delete(voyage);	
-		
+		voyageRepository.delete(voyage);		
 	}
 
 	@Override
 	public void modifierVoyage(int id, Voyage voyage) {
-		
-	//	voyageRepository.updateVoyage(voyage, id);
-
+		if (voyageRepository.findById(id).isPresent())
+			voyageRepository.save(voyage);
+		else
+			System.out.println("doesnt exist");
 	}
 
 	@Override
-	public List<Voyage> getAllEntreprises() {
+	public List<Voyage> getAllVoyage() {
 		List<Voyage> voyages = (List<Voyage>) voyageRepository.findAll();
 		return voyages;
 	}
 
 	@Override
-	public Optional<Voyage> getEntrepriseById(int id) {
-		return voyageRepository.findById(id)	;
+	public Optional<Voyage> getVoyageById(int id) {
+		return voyageRepository.findById(id);
 	}
 
 	@Override
-	public Voyage findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Voyage> findByDestination(String destination) {
+		
+		return voyageRepository.findbydestination(destination);
 	}
 
 }
