@@ -14,7 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,23 +44,29 @@ public class Voyage implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idVoyage;
 	@Temporal(TemporalType.DATE)
-	private Date dateSortie;
+	@FutureOrPresent(message = "Date must be after today")
+	//@NotBlank(message = "All dates are mandatory")
+	private Date departureDate;
 	@Temporal(TemporalType.DATE)
-	private Date dateArrivee;
-	@Temporal(TemporalType.DATE)
-	private Date dateRetour;
+	//@NotEmpty(message = "All dates are mandatory")
+	private Date arrivelDate;
+	@NotBlank(message = "Destination is mandatory")
 	String destination;
-	String lieuDepart;
-	String titreVoyage;
+	@NotNull(message = "periode is mandatory")
+	int periode;
+	@NotBlank(message = "subject is mandatory")
+	String subject;
+	@NotBlank(message = "Domain is mandatory")
 	String domain;
 	@Column(length = 9999999)
-	String programme;
-	float tarif;
+	//@NotBlank(message = "Program is mandatory")
+	String program;
+	@Positive
+	float price;
 	//@JsonIgnore
 	//@ManyToOne
 //	private Entreprise entreprise;
 	//@JsonIgnore
 	//@ManyToMany(mappedBy="voyages", cascade=CascadeType.ALL)
 	//List<Employee> employees;
-	
 }
