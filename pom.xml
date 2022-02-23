@@ -8,11 +8,11 @@
 		<version>2.6.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>examin</groupId>
-	<artifactId>fieldwork</artifactId>
+	<groupId>pi</groupId>
+	<artifactId>voyageAffaires</artifactId>
 	<version>1.0</version>
-	<name>fieldwork</name>
-	<description>apprendre associations</description>
+	<name>voyageAffaires</name>
+	<description>>project for a business trip</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -56,15 +56,6 @@
             <artifactId>spring-batch-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!--          <dependency> -->
-<!--          	<groupId>org.springframework.boot</groupId> -->
-<!--          	<artifactId>spring-boot-starter-security</artifactId> -->
-<!--          </dependency> -->
-<!--          <dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-test</artifactId> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
 	</dependencies>
 
 	<build>
