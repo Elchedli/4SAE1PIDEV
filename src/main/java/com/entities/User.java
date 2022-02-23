@@ -18,6 +18,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,6 +50,7 @@ public class User implements Serializable, UserDetails {
 	Boolean enabled = false;
 	@Enumerated(EnumType.STRING)
 	Role role;
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Invitation> invitations;
 	

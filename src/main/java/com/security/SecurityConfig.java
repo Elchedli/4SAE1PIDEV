@@ -31,23 +31,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		/*http.authorizeRequests().antMatchers("/registration").permitAll()
-		.anyRequest()
-		.authenticated()
-		.and()
-		.httpBasic().and().csrf().disable();*/
-		CustomAuthenticationFIlter customAuthenticationFIlter = new CustomAuthenticationFIlter(authenticationManagerBean());
-		customAuthenticationFIlter.setFilterProcessesUrl("/voyageAffaires/login");
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.authorizeRequests().antMatchers("/login").permitAll();
 		http.authorizeRequests().antMatchers("/user/**").permitAll();
 		http.authorizeRequests().antMatchers("/invitation/**").permitAll();
+		http.authorizeRequests().antMatchers("/test/**").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().anyRequest().authenticated();
-		http.addFilter(customAuthenticationFIlter);
+		http.addFilter(new CustomAuthenticationFIlter(authenticationManagerBean()));
 		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-		/*http.authorizeRequests().antMatchers("/registration/**").permitAll()
-				.antMatchers("/get**}").access("hasRole('ADMIN')")
-				.anyRequest().authenticated().and().httpBasic().and().csrf().disable();*/
+		
 	}
 	
 	@Bean

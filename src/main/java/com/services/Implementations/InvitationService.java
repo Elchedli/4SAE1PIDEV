@@ -76,7 +76,7 @@ public class InvitationService implements IInvitationService{
 		String msg = "";
 		Invitation invitationExists = invitationRepository.findInvitationBySujet(invitation.getSujet());
 		if(invitationExists != null){
-			invitationRepository.delete(invitation);
+			invitationRepository.delete(invitationExists);
 			msg = "invitation deleted";
 			log.info("Invitation {} deleted.", invitation.getSujet());
 		} else {

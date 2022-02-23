@@ -1,8 +1,11 @@
 package com.services.Implementations;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,11 +38,11 @@ public class UserService implements IUserService, UserDetailsService {
 		User userExistsE = retrieveUserByEmail(user.getEmail());
 
 		if (userExistsU != null) {
-			msg = "There is already a user registered with the username provided";
+			msg = "There is already a user registered with the username provided.";
 			log.error("User {} already exists", user.getUsername());
 		} else if (userExistsE != null) {
-			msg = "There is already a user registered with the email provided";
-			log.error("User {} already exists", user.getEmail());
+			msg = "There is already a user registered with the email provided.";
+			log.error("User {} already exists.", user.getEmail());
 		} else {
 			if (EmailValide.verifierEmail(user.getEmail())) {
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -47,7 +50,7 @@ public class UserService implements IUserService, UserDetailsService {
 				msg = "user saved";
 				log.info("User {} saved.", user.getUsername());
 			} else {
-				msg = "this email is not valid";
+				msg = "this email is not valid, user not saved.";
 				log.error("No valid email for User {}.", user.getUsername());
 			}
 		}
@@ -57,18 +60,25 @@ public class UserService implements IUserService, UserDetailsService {
 	@Override
 	public String updateUser(User user) {
 		String msg = "";
-		// User userExistsU = retrieveUserByUsername(user.getUsername());
+		User userExistsU = retrieveUserByUsername(user.getUsername());
 		User userExistsE = retrieveUserByEmail(user.getEmail());
 
 		if (userExistsE != null) {
-			if (userExistsE.getUsername().equals(user.getUsername())) {
+			if (userExistsU != null) {
+				if (userExistsE == userExistsU) {
+					userRepository.updateUser(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
+							user.getRole(), user.getEmail());
+					msg = "user updated";
+					log.info("user updated");
+				} else {
+					msg = "username is not available";
+					log.error("username {} is not available", user.getUsername());
+				}
+			} else {
 				userRepository.updateUser(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
 						user.getRole(), user.getEmail());
 				msg = "user updated";
 				log.info("user updated");
-			} else {
-				msg = "username is not available";
-				log.error("username {} is not available", user.getUsername());
 			}
 		} else {
 			msg = "user not found";
@@ -125,9 +135,9 @@ public class UserService implements IUserService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = retrieveUserByUsername(username);
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				user.getEnabled(), user.isAccountNonExpired(), user.isCredentialsNonExpired(),
-				user.isAccountNonLocked(), user.getAuthorities());
+		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(user.getRole().getAuthority()));
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.filters;
 
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class CustomAuthenticationFIlter extends UsernamePasswordAuthenticationFi
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		log.info("Username is {}.", username);
-		log.info("Password is {}.", password);
+		log.info("Password is hidden.");
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 				password);
 		return authenticationManager.authenticate(authenticationToken);
@@ -52,7 +53,7 @@ public class CustomAuthenticationFIlter extends UsernamePasswordAuthenticationFi
 				.withSubject(user.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
 				.withIssuer(request.getRequestURI().toString())
-				.withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.withClaim("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.sign(algorithm);
 		String refresh_token = JWT.create()
 				.withSubject(user.getUsername())
