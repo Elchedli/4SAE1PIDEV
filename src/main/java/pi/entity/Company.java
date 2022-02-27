@@ -18,9 +18,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import pi.enums.Countries;
-import pi.enums.Language;
-import pi.enums.LegalStatus;
-import pi.enums.Taille;
 
 @Entity
 @Getter
@@ -47,13 +44,13 @@ public class Company {
 	int phone;
 	int fax;
 	int suffix;
-	@Enumerated(EnumType.STRING)
-	LegalStatus status;
+//	@Enumerated(EnumType.STRING)
+//	LegalStatus status;
 	Date yearEstablished;
-	@Enumerated(EnumType.STRING)
-	Taille type; 
-	@Enumerated(EnumType.STRING)
-	Language language;
+//	@Enumerated(EnumType.STRING)
+//	Taille type; 
+//	@Enumerated(EnumType.STRING)
+//	Language language;
 	String activity;
 	Countries listReferences;
 	

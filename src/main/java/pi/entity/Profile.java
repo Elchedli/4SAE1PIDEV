@@ -20,9 +20,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import pi.enums.Countries;
-import pi.enums.Language;
-import pi.enums.Salutation;
-import pi.enums.Sex;
 
 @Entity
 @Getter
@@ -36,13 +33,14 @@ public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idProfile;
+	String username;
 	String nom;
 	String prenom;
-	@Enumerated(EnumType.STRING)
-	Salutation salutation;
+//	@Enumerated(EnumType.STRING)
+//	Salutation salutation;
 	Date birthdate;
-	@Enumerated(EnumType.STRING)
-	Sex sex;
+//	@Enumerated(EnumType.STRING)
+//	Sex sex;
 	@Enumerated(EnumType.STRING)
 	Countries country;
 	String city;
@@ -55,8 +53,8 @@ public class Profile {
 	String profession;
 	String nationality;
 	String activity;
-	@Enumerated(EnumType.STRING)
-	Language language;
+//	@Enumerated(EnumType.STRING)
+//	Language language;
 	
 	@ManyToMany()
 	List<Discussion> discPartners;

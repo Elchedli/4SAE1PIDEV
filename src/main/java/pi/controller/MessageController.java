@@ -1,35 +1,42 @@
 package pi.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.entity.Discussion;
 import pi.service.DiscussionService;
 import pi.service.MessaService;
 
 @RestController
 @RequestMapping("/message/")
 public class MessageController {
+
 	@Autowired
-	DiscussionService SDiscussion;
-	MessaService SMessage;
+	DiscussionService ServiceDiscussion;
+	MessaService ServiceMessage;
+
+	@GetMapping("ListeDiscussion/{username}")
+	public List<Discussion> listDiscussion(@PathVariable("username") String username) {
+		return ServiceDiscussion.ListeDiscussion(username);
+	}
 	
-//	@PostMapping("ajouterEtAffecterClientBoutiques/{lidb}")
-//	public void ajouterEtAffecterClientBoutiques(@RequestBody Client client,@PathVariable("lidb") List<Long> idBoutiques) {
-//		ICl.ajouterEtAffecterClientBoutique(client, idBoutiques);
-//	}
-//
-//	@GetMapping("listeClients/{idb}")
-//	public List<Client> listeClients(@PathVariable("idb") Long idBoutique) {
-//		return ICl.listeClients(idBoutique);
-//	}
+	@GetMapping("SupprimerDiscussion/{refdisc}")
+	public void SupprimerDiscussion(@PathVariable("refdisc") String refdisc) {
+		ServiceDiscussion.SupprimerDiscussion(refdisc);
+	}
 	
-//	@PostMapping("ajoutetudiant")
-//	public void ajouterEtudiant(@RequestBody Map<String,String> json) {
-//		String idDoc = json.get("idDoc");
-//		Long matricule = Long.parseLong(json.get("matricule"));
-//		System.out.println("idDoc est : "+ idDoc +"matricule : "+matricule);
-//		ITest.testfunction(idDoc, matricule);
-//	}
-	
+	@PostMapping("sendMessage")
+	public void ajouterEtudiant(@RequestBody Discussion disc,@RequestBody Map<String,String> json) {
+		String sender = json.get("sender");
+		String messagecontent = json.get("message");
+		ServiceMessage.SendMessage(disc, sender, messagecontent);
+	}
 }

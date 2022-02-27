@@ -3,13 +3,11 @@ package pi.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import pi.entity.Discussion;
+import pi.entity.Profile;
 
 @Repository
-public interface DiscussionRepository extends CrudRepository<Discussion,String>{
-//	Discussion findByUsername(String username);
-//	@Query("Select dc From DataCenter dc where dc.dateFabriquation > '2019-11-01'")
-//	List<DataCenter> listerDataCenter();
+public interface ProfileRepository extends CrudRepository<Profile,Integer>{
+	Profile findByusername(String username);
 //	List<DataCenter> findByespaceLibreDisqueGreaterThan(int total);
 //	@Query("Select c from Client c join c.clboutiques bs where bs.id = :idboutique")
 //	List<Client> listerClients(@Param("idboutique") long idboutique);

@@ -8,6 +8,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.FutureOrPresent;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ import pi.enums.LastSender;
 public class Discussion {
 	@Id
 	String ref_disc;
+	@FutureOrPresent(message = "Date must be after today")
 	@Temporal(TemporalType.DATE)
 	Date dateDiscussion;
 	boolean vue_disc;

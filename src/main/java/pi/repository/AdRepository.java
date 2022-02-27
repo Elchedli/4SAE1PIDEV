@@ -7,18 +7,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import pi.entity.Newsletter;
-import pi.enums.ArticleRegion;
-import pi.enums.Countries;
+import pi.entity.Ad;
+import pi.enums.PubRegion;
+import pi.enums.PubType;
 
 @Repository
-public interface NewsletterRepository extends CrudRepository<Newsletter,Integer>{
-	@Query("Select news From Newsletter news where news.articleRegion = :newreg AND news.country = :countries")
-	List<Newsletter> listerNewsRegions(@Param("newreg") ArticleRegion regpub,@Param("countries") Countries country);
-	@Query("Select news From Newsletter news ORDER BY news.vues")
-	List<Newsletter> listerNewsViews();
-//	@Query("Select dc From DataCenter dc where dc.dateFabriquation > '2019-11-01'")
-//	List<DataCenter> listerDataCenter();
+public interface AdRepository extends CrudRepository<Ad,Integer>{
+	@Query("Select ad From Ad ad where ad.pubRegion = :regpub and ad.pubType = :regtype")
+	List<Ad> listerPubRegion(@Param("regpub") PubRegion regpub,@Param("regtype") PubType regtype);
 //	List<DataCenter> findByespaceLibreDisqueGreaterThan(int total);
 //	@Query("Select c from Client c join c.clboutiques bs where bs.id = :idboutique")
 //	List<Client> listerClients(@Param("idboutique") long idboutique);

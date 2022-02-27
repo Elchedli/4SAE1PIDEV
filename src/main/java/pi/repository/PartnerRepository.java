@@ -1,22 +1,13 @@
 package pi.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import pi.entity.Newsletter;
-import pi.enums.ArticleRegion;
-import pi.enums.Countries;
+import pi.entity.Partner;
 
 @Repository
-public interface NewsletterRepository extends CrudRepository<Newsletter,Integer>{
-	@Query("Select news From Newsletter news where news.articleRegion = :newreg AND news.country = :countries")
-	List<Newsletter> listerNewsRegions(@Param("newreg") ArticleRegion regpub,@Param("countries") Countries country);
-	@Query("Select news From Newsletter news ORDER BY news.vues")
-	List<Newsletter> listerNewsViews();
+public interface PartnerRepository extends CrudRepository<Partner,Integer>{
+	Partner findByNomPart(String nomPart);
 //	@Query("Select dc From DataCenter dc where dc.dateFabriquation > '2019-11-01'")
 //	List<DataCenter> listerDataCenter();
 //	List<DataCenter> findByespaceLibreDisqueGreaterThan(int total);

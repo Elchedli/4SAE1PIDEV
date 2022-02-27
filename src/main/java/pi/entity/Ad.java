@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,14 +25,18 @@ import pi.enums.PubType;
 @AllArgsConstructor 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
-public class Publicitee {
+public class Ad {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idPub;
+	@NotBlank(message = "Publication title is required")
 	String titrePub;
+	@NotBlank(message = "Description for the content is required")
 	String descriptionPub;
 	String imagePub;
 	PubRegion pubRegion;
-	PubType placePub;
+	//GLOBAL,NATIONNAL
+	PubType pubType;
+	//REMISE,FORFAIT
 	// administrateur va avoir plusieurs publiciée @ManyToMany
 }
