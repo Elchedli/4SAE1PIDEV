@@ -1,6 +1,5 @@
 package com.filters;
 
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,11 +23,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomAuthenticationFIlter extends UsernamePasswordAuthenticationFilter {
-	private AuthenticationManager authenticationManager;
+	AuthenticationManager authenticationManager;
 
 	public CustomAuthenticationFIlter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
@@ -70,11 +72,6 @@ public class CustomAuthenticationFIlter extends UsernamePasswordAuthenticationFi
 		tokens.put("refresh_token", refresh_token);
 		response.setContentType("application/json");
 		new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-		
-
-
-		
-		
 	}
 
 }

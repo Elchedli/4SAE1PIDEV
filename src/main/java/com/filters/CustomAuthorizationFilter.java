@@ -54,7 +54,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 				} catch (Exception exception) {
 					log.error("Error logging in : {}", exception.getMessage());
 				}
-
 			} else {
 				filterChain.doFilter(request, response);
 			}

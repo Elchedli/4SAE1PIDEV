@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.Role;
 import com.entities.User;
@@ -20,4 +21,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	@Query(value = "SELECT role FROM User u WHERE u.username= :username", nativeQuery = true)
 	Role findRoleUserByUsername(@Param("username") String username);
 
+	@Transactional
+    @Modifying
+    @Query("UPDATE User u set u.enabled = TRUE where u.email= :email")
+    int enableAppUser(@Param("email") String email);
 }

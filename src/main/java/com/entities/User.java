@@ -21,20 +21,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ToString
 public class User implements Serializable, UserDetails {
 	/**
 	 * 
@@ -53,6 +45,14 @@ public class User implements Serializable, UserDetails {
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Invitation> invitations;
+	
+	public User(String username, String email, String password, Role role) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,4 +75,7 @@ public class User implements Serializable, UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
+	
+	
 }
