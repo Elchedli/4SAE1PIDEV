@@ -45,10 +45,10 @@ public class User implements Serializable, UserDetails {
 	String username;
 	String email;
 	String password;
-	Boolean locked = false;
-	Boolean enabled = false;
 	@Enumerated(EnumType.STRING)
 	Role role;
+	Boolean locked = false;
+	Boolean enabled = false;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Invitation> invitations;

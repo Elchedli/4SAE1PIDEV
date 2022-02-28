@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.ConfirmationToken;
 
@@ -16,7 +15,7 @@ import com.entities.ConfirmationToken;
 public interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
 	Optional<ConfirmationToken> findByToken(String token);
 
-	@Transactional
+	
 	@Modifying
 	@Query("update ConfirmationToken c set c.confirmedAt = :confirmedAt where c.token = :token")
 	int updateConfirmedAt(@Param("token") String token, @Param("confirmedAt") LocalDateTime confirmedAt);

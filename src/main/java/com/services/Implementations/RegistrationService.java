@@ -45,7 +45,7 @@ public class RegistrationService implements IRegistrationService{
 				ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);
 				confirmationTokenService.saveConfirmationToken(confirmationToken);
 				
-				String link = "http://localhost:8080/registration/confirm?token=" + token;
+				String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
 				confirmationTokenService.send(
 		                user.getEmail(),
 		                buildEmail(user.getUsername(), link));
