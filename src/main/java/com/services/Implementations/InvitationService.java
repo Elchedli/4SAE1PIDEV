@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.entities.Invitation;
-import com.entities.Role;
 import com.entities.User;
 import com.repositories.InvitationRepository;
 import com.repositories.UserRepository;
 import com.services.Interfaces.IInvitationService;
 
+import enums.Role;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;

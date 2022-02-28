@@ -8,4 +8,6 @@ public interface IConfirmationTokenService {
 	void saveConfirmationToken (ConfirmationToken confirmationToken);
 	Optional<ConfirmationToken> getToken(String token);
 	int setConfirmedAt(String token) ;
+    void send(String to, String email);
+
 }
