@@ -1,4 +1,4 @@
-package enums;
+package com.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

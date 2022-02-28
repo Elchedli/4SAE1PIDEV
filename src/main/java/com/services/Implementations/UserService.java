@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import com.entities.User;
 import com.repositories.UserRepository;
 import com.services.Interfaces.IUserService;
@@ -30,13 +31,7 @@ public class UserService implements IUserService, UserDetailsService {
 	UserRepository userRepository;
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	@Override
-	public String addUser(User user) {
-		userRepository.save(user);
-		return "user Saved";
-	}
-	
+
 	@Override
 	public String updateUser(User user) {
 		String msg = "";
@@ -117,9 +112,8 @@ public class UserService implements IUserService, UserDetailsService {
 		User user = retrieveUserByUsername(username);
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority(user.getRole().getAuthority()));
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+				authorities);
 	}
-
-	
 
 }

@@ -22,10 +22,11 @@ import com.filters.CustomAuthorizationFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserDetailsService userDetailsService;
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 

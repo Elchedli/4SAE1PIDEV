@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.Utils.EmailValide;
 import com.entities.ConfirmationToken;
 import com.entities.User;
+import com.enums.Role;
+import com.repositories.UserRepository;
 import com.services.Interfaces.IRegistrationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ public class RegistrationService implements IRegistrationService{
 	BCryptPasswordEncoder bCryptPasswordEncoder;	
 	@Autowired
 	ConfirmationTokenService confirmationTokenService;
+	@Autowired
+	UserRepository userRepository;
 	
 	@Override
 	public String register(User user) {
@@ -31,15 +35,17 @@ public class RegistrationService implements IRegistrationService{
 
 		if (userExistsU != null) {
 			msg = "There is already a user registered with the username provided.";
-			log.error("User {} already exists", user.getUsername());
+			log.error("User {} already exists, can't be saved.", user.getUsername());
 		} else if (userExistsE != null) {
 			msg = "There is already a user registered with the email provided.";
-			log.error("User {} already exists.", user.getEmail());
+			log.error("User {} already exists, can't be saved..", user.getEmail());
 		} else {
 			if (EmailValide.verifierEmail(user.getEmail())) {
 				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-				userService.addUser(user);
-				log.info("User {} saved.", user.getUsername());
+				user.setRole(Role.COMPANY);
+				userRepository.save(user);
+				msg = "Company saved.";
+				log.info("Company {} saved, confirm your email.", user.getUsername());
 				
 				String token = UUID.randomUUID().toString();
 				ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);
@@ -49,8 +55,6 @@ public class RegistrationService implements IRegistrationService{
 				confirmationTokenService.send(
 		                user.getEmail(),
 		                buildEmail(user.getUsername(), link));
-
-		        return token;
 			} else {
 				msg = "this email is not valid, user not saved.";
 				log.error("No valid email for User {}.", user.getUsername());
@@ -59,6 +63,75 @@ public class RegistrationService implements IRegistrationService{
 		return msg;
 	}
 	
+	
+	public String addAdmin(User admin) {
+		String msg = "";
+		User adminExistsU = userService.retrieveUserByUsername(admin.getUsername());
+		User adminExistsE = userService.retrieveUserByEmail(admin.getEmail());
+		if (adminExistsU != null) {
+			msg = "There is already an admin registered with the username provided.";
+			log.error("Admin {} already exists, can't be saved.", admin.getUsername());
+		} else if (adminExistsE != null) {
+			msg = "There is already an admin registered with the email provided.";
+			log.error("Admin {} already exists, can't be saved.", admin.getEmail());
+		} else {
+			if (EmailValide.verifierEmail(admin.getEmail())) {
+				admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
+				admin.setRole(Role.ADMIN);
+				userRepository.save(admin);
+				msg = "Admin saved.";
+				log.info("Admin {} saved, confirm your email.", admin.getUsername());
+				
+				String token = UUID.randomUUID().toString();
+				ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),admin);
+				confirmationTokenService.saveConfirmationToken(confirmationToken);
+				
+				String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
+				confirmationTokenService.send(
+						admin.getEmail(),
+		                buildEmail(admin.getUsername(), link));
+			} else {
+				msg = "This email is not valid, user not saved.";
+				log.error("This email is not valid, Admin {} not saved.", admin.getUsername());
+			}
+		}
+		return msg;
+	}
+	
+	
+	public String addEmployee(User employee) {
+		String msg = "";
+		User adminExistsU = userService.retrieveUserByUsername(employee.getUsername());
+		User adminExistsE = userService.retrieveUserByEmail(employee.getEmail());
+		if (adminExistsU != null) {
+			msg = "There is already an admin registered with the username provided.";
+			log.error("Admin {} already exists, can't be saved.", employee.getUsername());
+		} else if (adminExistsE != null) {
+			msg = "There is already an admin registered with the email provided.";
+			log.error("Admin {} already exists, can't be saved.", employee.getEmail());
+		} else {
+			if (EmailValide.verifierEmail(employee.getEmail())) {
+				employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
+				employee.setRole(Role.ADMIN);
+				userRepository.save(employee);
+				msg = "Admin saved.";
+				log.info("Admin {} saved, confirm your email.", employee.getUsername());
+				
+				String token = UUID.randomUUID().toString();
+				ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),employee);
+				confirmationTokenService.saveConfirmationToken(confirmationToken);
+				
+				String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
+				confirmationTokenService.send(
+						employee.getEmail(),
+		                buildEmail(employee.getUsername(), link));
+			} else {
+				msg = "This email is not valid, user not saved.";
+				log.error("This email is not valid, Admin {} not saved.", employee.getUsername());
+			}
+		}
+		return msg;
+	}
 	private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +

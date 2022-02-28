@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.entities.User;
 import com.services.Implementations.ConfirmationTokenService;
+import com.services.Implementations.InvitationService;
 import com.services.Implementations.RegistrationService;
 
 import lombok.AccessLevel;
@@ -23,6 +24,9 @@ public class RegistrationController {
 	RegistrationService registrationService;
 	@Autowired
 	ConfirmationTokenService confirmationTokenService;
+	@Autowired
+	InvitationService invitationService;
+	
 
 	@PostMapping("/register")
 	public String register(@RequestBody User user) {
@@ -33,5 +37,23 @@ public class RegistrationController {
 	public String confirm(@RequestParam("token") String token) {
 		return confirmationTokenService.confirmToken(token);
 	}
+	
+	@PostMapping("/Admin")
+	public String addAdmin(@RequestBody User admin) {
+		return registrationService.addAdmin(admin);
+	}
+	
+	@PostMapping("/Employee")
+	public String addEmployee(@RequestBody User employee) {
+		return registrationService.addEmployee(employee);
+	}
+	
+	@GetMapping("/envoyerInvitation")
+	public String envoyerInvitation(@RequestParam("email") String email) {
+		return invitationService.envoyerInvitation(email);
+	}
+	
+	
+	
 
 }

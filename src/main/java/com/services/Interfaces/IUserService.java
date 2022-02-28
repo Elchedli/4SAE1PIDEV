@@ -6,7 +6,6 @@ import java.util.List;
 import com.entities.User;
 
 public interface IUserService {
-	String addUser(User user);
 	String updateUser(User user);
 	String deleteUser(User user);
 	User retrieveUserByUsername(String username);

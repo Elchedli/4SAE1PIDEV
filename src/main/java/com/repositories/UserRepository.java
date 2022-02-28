@@ -7,8 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.entities.User;
-
-import enums.Role;
+import com.enums.Role;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {

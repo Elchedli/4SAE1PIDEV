@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,9 +17,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import enums.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,8 +49,15 @@ public class User implements Serializable, UserDetails {
 	Boolean locked = false;
 	Boolean enabled = false;
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	List<Invitation> invitations;
+	
+	public User(String username, String email, String password) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
 	
 	public User(String username, String email, String password, Role role) {
 		super();
@@ -82,6 +88,8 @@ public class User implements Serializable, UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+	
 	
 	
 	
