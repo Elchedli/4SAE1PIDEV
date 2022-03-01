@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.entities.Invitation;
 import com.entities.User;
-import com.enums.Role;
+import com.entities.enums.Role;
 import com.repositories.InvitationRepository;
 import com.repositories.UserRepository;
 import com.services.Interfaces.IInvitationService;
@@ -35,6 +35,7 @@ public class InvitationService implements IInvitationService{
 	JavaMailSender mailSender;
 
 	@Override
+	@Transactional
 	public String addInvitation(Invitation invitation) {
 		String msg = "";
 		User company = userRepository.findUserByEmail(invitation.getDe());
@@ -54,18 +55,14 @@ public class InvitationService implements IInvitationService{
 				log.error("User {} can't receive invitations.", invitation.getPour());
 			} else {
 				invitationRepository.save(invitation);
-				
+				company.getInvitations().add(invitation);
+				String link = "http://localhost:8083/voyageAffaires/registration/Employee";
+				send(employee.getEmail(), buildEmail(employee.getUsername(), company.getUsername(), link));
 				msg = "Invitation saved.";
 				log.error("Invitation {} saved.", invitation.getSujet());
 			}
 		}
 		return msg;
-	}
-	
-	public String envoyerInvitation(String email){
-		String link = "http://localhost:8083/voyageAffaires/registration/Employee";
-		send(email, buildEmail(email, link));
-		return "invitation sent";
 	}
 	
     @Async
@@ -77,7 +74,7 @@ public class InvitationService implements IInvitationService{
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Create an Account");
-            helper.setFrom("heytravellertn@gmail.com");
+            helper.setFrom("heytravellertn");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             log.error("failed to send email {}", e);
@@ -131,7 +128,8 @@ public class InvitationService implements IInvitationService{
 	public List<Invitation> retrieveAllInvitations() {
 		return (List<Invitation>) invitationRepository.findAll();
 	}
-	private String buildEmail(String name, String link) {
+	
+	private String buildEmail(String receiverName,String senderName, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -187,7 +185,7 @@ public class InvitationService implements IInvitationService{
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> You have been invited by your company to join our application. Please click on the below link to sign up: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + receiverName + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> You have been invited by your company"+ senderName +" to join our application. Please click on the below link to sign up: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +

@@ -43,7 +43,7 @@ public class RefreshTokenController {
 				JWTVerifier verifier = JWT.require(algorithm).build();
 				DecodedJWT decodedJWT = verifier.verify(refresh_token);
 				String username = decodedJWT.getSubject();
-				User user = userService.retrieveUserByUsername(username);
+				User user = userService.retrieveByUsername(username);
 				
 				String access_token = JWT.create()
 						.withSubject(user.getUsername())

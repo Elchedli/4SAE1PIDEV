@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entities.User;
+import com.services.Implementations.ConfirmationEmailService;
 import com.services.Implementations.UserService;
 
 import lombok.AccessLevel;
@@ -28,30 +31,48 @@ import lombok.experimental.FieldDefaults;
 public class UserController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	ConfirmationEmailService confirmationEmailService;
 	
-	@PutMapping("/updateUser")
-	public String updateUser(@RequestBody User user) {
-		return userService.updateUser(user);
+	@PostMapping("/add")
+	public String add(@RequestBody User user) {
+		return userService.add(user);
 	}
 	
-	@DeleteMapping("/deleteUser")
-	public String deleteUser(@RequestBody User user) {
-		return userService.deleteUser(user);
+	@GetMapping("/confirm")
+	public String confirm(@RequestParam("token") String token) {
+		return confirmationEmailService.confirmToken(token);
 	}
 	
-	@GetMapping("/retrieveUserByUsername")
-	public User retrieveUserByUsername(@RequestBody UsernameEmail usernameEmail) {
-		return userService.retrieveUserByUsername(usernameEmail.getUsername());
+	@PostMapping("/forgetPassword")
+	public String forgetPassword(@RequestBody User user) {
+		return userService.forgetPasswordEmail(user);
 	}
 	
-	@GetMapping("/retrieveUserByEmail")
-	public User retrieveUserByEmail(@RequestBody UsernameEmail usernameEmail) {
-		return userService.retrieveUserByEmail(usernameEmail.getEmail());
+	
+	@PutMapping("/update")
+	public String update(@RequestBody User user) {
+		return userService.update(user);
 	}
 	
-	@GetMapping("/retrieveAllUsers")
-	public List<User> retrieveAllUsers() {
-		return userService.retrieveAllUsers();
+	@DeleteMapping("/delete")
+	public String delete(@RequestBody User user) {
+		return userService.delete(user);
+	}
+	
+	@GetMapping("/retrieveByUsername")
+	public User retrieveByUsername(@RequestBody UsernameEmail usernameEmail) {
+		return userService.retrieveByUsername(usernameEmail.getUsername());
+	}
+	
+	@GetMapping("/retrieveByEmail")
+	public User retrieveByEmail(@RequestBody UsernameEmail usernameEmail) {
+		return userService.retrieveByEmail(usernameEmail.getEmail());
+	}
+	
+	@GetMapping("/retrieveAll")
+	public List<User> retrieveAll() {
+		return userService.retrieveAll();
 	}
 	
 	@GetMapping("/loadUserByUsername")

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.entities.User;
-import com.enums.Role;
+import com.entities.enums.Role;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -24,4 +24,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u set u.enabled = TRUE where u.email= :email")
     int enableAppUser(@Param("email") String email);
+    
+    @Modifying
+    @Query("UPDATE User u set u.password = :password where u.email= :email")
+    int updatePassword(@Param("password") String password,@Param("email") String email);
 }

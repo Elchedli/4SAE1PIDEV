@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.ConfirmationToken;
-import com.repositories.ConfirmationTokenRepository;
+import com.repositories.ConfirmationEmailRepository;
 import com.repositories.UserRepository;
-import com.services.Interfaces.IConfirmationTokenService;
+import com.services.Interfaces.IConfirmationEmailService;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -25,9 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
-public class ConfirmationTokenService implements IConfirmationTokenService{
+public class ConfirmationEmailService implements IConfirmationEmailService{
 	@Autowired
-	ConfirmationTokenRepository confirmationTokenRepository;
+	ConfirmationEmailRepository confirmationTokenRepository;
 	@Autowired
 	UserRepository userRepository;
     @Autowired
@@ -35,11 +35,11 @@ public class ConfirmationTokenService implements IConfirmationTokenService{
     
     
 	@Override
-	public void saveConfirmationToken (ConfirmationToken confirmationToken){
+	public void add(ConfirmationToken confirmationToken){
 		confirmationTokenRepository.save(confirmationToken);
 	}
 	@Override
-	public Optional<ConfirmationToken> getToken(String token) {
+	public Optional<ConfirmationToken> getByToken(String token) {
         return confirmationTokenRepository.findByToken(token);
     }
 	@Override
@@ -65,15 +65,16 @@ public class ConfirmationTokenService implements IConfirmationTokenService{
             throw new IllegalStateException("failed to send email");
         }
     }
-    
+    @Override
     public int enableUser(String email) {
         return userRepository.enableAppUser(email);
     }
     
+    @Override
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = 
-                getToken(token)
+                getByToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
 
