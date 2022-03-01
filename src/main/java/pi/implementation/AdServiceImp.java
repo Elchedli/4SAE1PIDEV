@@ -11,6 +11,7 @@ import pi.enums.PubRegion;
 import pi.enums.PubType;
 import pi.repository.AdRepository;
 import pi.service.AdService;
+import pi.utils.TimeUtils;
 
 @Service
 public class AdServiceImp implements AdService {
@@ -26,7 +27,11 @@ public class AdServiceImp implements AdService {
 
 	@Override
 	public List<Ad> PubRegion(PubRegion region, PubType typepub) {
-		return RepoAd.listerPubRegion(region, typepub);
+		List<Ad> datas = RepoAd.listerPubRegion(region, typepub);
+		datas.forEach(element -> {
+			element.setPublishedago(ConversionTime(element.getDateAd()));
+		});
+		return datas;
 	}
 
 	@Override
@@ -37,9 +42,11 @@ public class AdServiceImp implements AdService {
 	}
 
 	@Override
-	public String ConversionTime(Date dateNews) {
-		// need to work
-		return "hallo";
+	public String ConversionTime(Date dateAd) {
+		long millis = dateAd.getTime();
+		String relativeDate = String.valueOf(TimeUtils.getRelativeTime(millis));
+		System.out.println("date is : " + relativeDate);
+		return relativeDate;
 	}
 
 }

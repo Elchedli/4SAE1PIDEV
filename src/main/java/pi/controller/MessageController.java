@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pi.entity.Discussion;
+import pi.entity.Profile;
 import pi.service.DiscussionService;
 import pi.service.MessaService;
 
@@ -21,8 +22,17 @@ public class MessageController {
 
 	@Autowired
 	DiscussionService ServiceDiscussion;
+	@Autowired
 	MessaService ServiceMessage;
-
+	
+	@PostMapping("addProfile")
+	public void addProfile(@RequestBody Profile p) {
+		ServiceDiscussion.AddProfile(p);
+	}
+	@PostMapping("addDiscussion/{username}")
+	public void addDiscussion(@RequestBody Discussion disc,@PathVariable("username") String username) {
+		ServiceDiscussion.AddDiscussion(disc,username);
+	}
 	@GetMapping("ListeDiscussion/{username}")
 	public List<Discussion> listDiscussion(@PathVariable("username") String username) {
 		return ServiceDiscussion.ListeDiscussion(username);

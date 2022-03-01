@@ -15,7 +15,7 @@ import pi.enums.Countries;
 public interface NewsletterRepository extends CrudRepository<Newsletter,Integer>{
 	@Query("Select news From Newsletter news where news.articleRegion = :newreg AND news.country = :countries")
 	List<Newsletter> listerNewsRegions(@Param("newreg") ArticleRegion regpub,@Param("countries") Countries country);
-	@Query("Select news From Newsletter news ORDER BY news.vues")
+	@Query("Select news From Newsletter news ORDER BY news.vues DESC")
 	List<Newsletter> listerNewsViews();
 //	@Query("Select dc From DataCenter dc where dc.dateFabriquation > '2019-11-01'")
 //	List<DataCenter> listerDataCenter();

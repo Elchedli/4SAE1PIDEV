@@ -7,7 +7,7 @@ import pi.entity.Profile;
 
 @Repository
 public interface ProfileRepository extends CrudRepository<Profile,Integer>{
-	Profile findByusername(String username);
+	Profile findByUsername(String username);
 //	List<DataCenter> findByespaceLibreDisqueGreaterThan(int total);
 //	@Query("Select c from Client c join c.clboutiques bs where bs.id = :idboutique")
 //	List<Client> listerClients(@Param("idboutique") long idboutique);

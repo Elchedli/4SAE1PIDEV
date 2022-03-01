@@ -2,13 +2,17 @@ package pi.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.FutureOrPresent;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,14 +34,19 @@ import pi.enums.LastSender;
 @NoArgsConstructor
 public class Discussion {
 	@Id
-	String ref_disc;
-	@FutureOrPresent(message = "Date must be after today")
-	@Temporal(TemporalType.DATE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Integer idisc;
+	@Column(unique = true)
+	String refdisc;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	Date dateDiscussion;
 	boolean vue_disc;
 	LastSender lastSender;
-	@ManyToMany(mappedBy = "discPartners") //only two people
-	List<Profile> talkers;
-	@OneToMany(mappedBy = "discussion")
+	String sender;
+	String receiver;
+//	@ManyToMany(mappedBy = "discPartners",cascade = CascadeType.ALL) //only two people
+//	List<Profile> talkers;
+	@OneToMany(cascade=CascadeType.ALL)
 	List<Messa> messages;
 }

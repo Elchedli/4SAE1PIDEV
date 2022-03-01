@@ -1,5 +1,6 @@
 package pi.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor 
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class Partner {
@@ -28,6 +29,7 @@ public class Partner {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idPart;
 	@NotBlank(message = "company name is needed")
+	@Column(unique = true)
 	String nomPart;
 	@NotBlank(message = "Image logo for the company is needed")
 	String logoPart;
