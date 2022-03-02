@@ -3,6 +3,7 @@ package com.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -19,6 +21,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+
+import org.hibernate.annotations.Where;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,6 +49,7 @@ public class Voyage implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	//@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idVoyage;
@@ -59,14 +69,19 @@ public class Voyage implements Serializable{
 	@NotBlank(message = "Domain is mandatory")
 	String domain;
 	@Column(length = 9999999)
-	//@NotBlank(message = "Program is mandatory")
+	@NotBlank(message = "Program is mandatory")
 	String program;
+	String picture;
 	@Positive
 	float price;
-	//@JsonIgnore
-	//@ManyToOne
-//	private Entreprise entreprise;
-	//@JsonIgnore
-	//@ManyToMany(mappedBy="voyages", cascade=CascadeType.ALL)
-	//List<Employee> employees;
+	
+	@JsonIgnore
+	@Where(clause = "role='COMPANY'")
+	@ManyToOne
+	private User entreprise;
+
+	@JsonIgnore
+	@Where(clause = "role='EMPLOYEE'")
+	@ManyToMany(cascade = CascadeType.ALL)
+	List<User> employees;
 }
