@@ -31,7 +31,6 @@ import pi.enums.Countries;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class Newsletter {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idNews;

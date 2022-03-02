@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import pi.entity.Discussion;
 
 @Repository
-public interface DiscussionRepository extends CrudRepository<Discussion,Integer>{
-	Discussion findByRefdisc(String refdisc);
+public interface DiscussionRepository extends CrudRepository<Discussion,String>{
+//	Discussion findByRefdisc(String refdisc);
 //	Discussion findByUsername(String username);
 //	@Query("Select dc From DataCenter dc where dc.dateFabriquation > '2019-11-01'")
 //	List<DataCenter> listerDataCenter();

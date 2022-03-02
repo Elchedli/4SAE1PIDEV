@@ -3,11 +3,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,19 +33,24 @@ import pi.enums.LastSender;
 @NoArgsConstructor
 public class Discussion {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer idisc;
-	@Column(unique = true)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	String refdisc;
+//	@Column(unique = true)
+//	String refdisc;
+//	@Column(nullable = false)
+//	String sender;
+//	@Column(nullable = false)
+//	String receiver;
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	Date dateDiscussion;
-	boolean vue_disc;
 	LastSender lastSender;
-	String sender;
-	String receiver;
+	boolean vue_disc;
+	@OneToMany(mappedBy="discussion",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	List<Messa> messages;
+	@ManyToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+	List<Profile> conversation;
 //	@ManyToMany(mappedBy = "discPartners",cascade = CascadeType.ALL) //only two people
 //	List<Profile> talkers;
-	@OneToMany(cascade=CascadeType.ALL)
-	List<Messa> messages;
+	
 }

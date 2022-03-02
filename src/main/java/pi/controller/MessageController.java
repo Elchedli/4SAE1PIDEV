@@ -29,15 +29,21 @@ public class MessageController {
 	public void addProfile(@RequestBody Profile p) {
 		ServiceDiscussion.AddProfile(p);
 	}
-	@PostMapping("addDiscussion/{username}")
-	public void addDiscussion(@RequestBody Discussion disc,@PathVariable("username") String username) {
-		ServiceDiscussion.AddDiscussion(disc,username);
+	@GetMapping("addDiscussion/{sender}/{receiver}")
+	public void addDiscussion(@PathVariable("sender") String sender,@PathVariable("receiver") String receiver) {
+		ServiceDiscussion.AddDiscussion(sender,receiver);
 	}
+	
 	@GetMapping("ListeDiscussion/{username}")
 	public List<Discussion> listDiscussion(@PathVariable("username") String username) {
 		return ServiceDiscussion.ListeDiscussion(username);
 	}
 	
+	
+	@GetMapping("ListeDiscussion/{username}/{nomprenom}")
+	public List<Profile> FiltrerDiscussion(@PathVariable("username") String username,@PathVariable("nomprenom") String nomprenom){
+		return ServiceDiscussion.FiltrerDiscussion(username, nomprenom);
+	}
 	@GetMapping("SupprimerDiscussion/{refdisc}")
 	public void SupprimerDiscussion(@PathVariable("refdisc") String refdisc) {
 		ServiceDiscussion.SupprimerDiscussion(refdisc);

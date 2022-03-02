@@ -63,6 +63,6 @@ public class Profile {
 //	@Enumerated(EnumType.STRING)
 //	Language language;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy="conversation",cascade=CascadeType.ALL)
 	List<Discussion> discPartners;
 }
