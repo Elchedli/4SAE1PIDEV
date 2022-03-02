@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,18 +47,25 @@ public class VoyageController {
 	@Autowired
 	IVoyageService voyageService;
 	
+	
+	/*{
+    "departureDate" : "2024-12-12",
+	"arrivelDate": "2025-01-05",
+	"destination": "Maroc",
+	"periode":5,
+	"subject":"search",
+    "domain":"tech",
+    "program":"program",
+	"price":50
+}*/
 	@PostMapping("/addVoyage")
 	@ResponseBody
-	public String ajoutervoyage(@RequestParam("voyage") Voyage voyage,@RequestParam("image") MultipartFile picture) throws IOException{
-		
-            
-    String fileName = StringUtils.cleanPath(picture.getOriginalFilename());
-    return fileName;
- //   voyage.setPicture(fileName);
-    //String uploadDir = "user-photos/" + voyage.getIdVoyage();
-
-  //  FileUploadUtil.saveFile(uploadDir, fileName, picture);
-	//	return voyageService.ajoutVoyage(voyage);
+	public String ajoutervoyage(@RequestPart Voyage voyage,@RequestParam("image") MultipartFile picture) throws IOException{
+    String fileName = StringUtils.cleanPath(picture.getOriginalFilename());   
+    voyage.setPicture(picture.getBytes());
+    String uploadDir = "TripPictures/" + voyage.getEntreprise().getUsername();
+    FileUploadUtil.saveFile(uploadDir, fileName, picture);
+	return voyageService.ajoutVoyage(voyage);
 	}
 	
 	@GetMapping("/getVoyages")

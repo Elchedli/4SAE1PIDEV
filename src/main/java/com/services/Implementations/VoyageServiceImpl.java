@@ -210,8 +210,7 @@ public class VoyageServiceImpl implements IVoyageService {
 		texteEN.append(entreprise.getUsername());
 		texteEN.append("\n");
 		texteEN.append("\n");
-		
-		Calendar calendar = Calendar.getInstance();
+
 		float price=0; 
 		for (Voyage v: voyages)
 		{
@@ -308,6 +307,8 @@ public class VoyageServiceImpl implements IVoyageService {
 			else	
 			return "Employee already has this trip";		
 	    }
+
+
 	
 	
 	

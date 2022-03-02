@@ -71,7 +71,8 @@ public class Voyage implements Serializable{
 	@Column(length = 9999999)
 	@NotBlank(message = "Program is mandatory")
 	String program;
-	String picture;
+	@Lob()
+	byte[] picture;
 	@Positive
 	float price;
 	
