@@ -57,7 +57,7 @@ public class InvitationService implements IInvitationService{
 				invitationRepository.save(invitation);
 				company.getInvitations().add(invitation);
 				String link = "http://localhost:8083/voyageAffaires/registration/Employee";
-				send(employee.getEmail(), buildEmail(employee.getUsername(), company.getUsername(), link));
+				send(employee.getEmail(), buildInvitationEmail(employee.getUsername(), company.getUsername(), link));
 				msg = "Invitation saved.";
 				log.error("Invitation {} saved.", invitation.getSujet());
 			}
@@ -129,7 +129,7 @@ public class InvitationService implements IInvitationService{
 		return (List<Invitation>) invitationRepository.findAll();
 	}
 	
-	private String buildEmail(String receiverName,String senderName, String link) {
+	private String buildInvitationEmail(String receiverName,String senderName, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +

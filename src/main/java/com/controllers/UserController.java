@@ -34,9 +34,14 @@ public class UserController {
 	@Autowired
 	ConfirmationEmailService confirmationEmailService;
 	
-	@PostMapping("/add")
-	public String add(@RequestBody User user) {
-		return userService.add(user);
+	@PostMapping("/addCompany")
+	public String addCompany(@RequestBody User user) {
+		return userService.addCompany(user);
+	}
+	
+	@PostMapping("/addEmployee")
+	public String addEmployee(@RequestBody User user) {
+		return userService.addEmployee(user);
 	}
 	
 	@GetMapping("/confirm")
@@ -46,7 +51,11 @@ public class UserController {
 	
 	@PostMapping("/forgetPassword")
 	public String forgetPassword(@RequestBody User user) {
-		return userService.forgetPasswordEmail(user);
+		return userService.sendForgetPasswordEmail(user);
+	}
+	@PutMapping("/updatePassword")
+	public String updatePassword(@RequestBody User user) {
+		return userService.updatePassword(user);
 	}
 	
 	

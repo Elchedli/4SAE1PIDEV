@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.Utils.EmailValide;
 import com.entities.ConfirmationToken;
 import com.entities.User;
+import com.entities.enums.Role;
 import com.repositories.UserRepository;
 import com.services.Interfaces.IUserService;
 
@@ -55,13 +56,14 @@ public class UserService implements IUserService, UserDetailsService {
 	}
 
 	@Override
-	public String add(User user) {
+	public String addCompany(User user) {
 		String msg = "";
 		if (verification(user)) {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			user.setRole(Role.COMPANY);
 			userRepository.save(user);
-			msg = "User saved.";
-			log.info("User {} saved, confirm your email.", user.getUsername());
+			msg = "Company saved.";
+			log.info("Company {} saved, confirm your email.", user.getUsername());
 
 			String token = UUID.randomUUID().toString();
 			ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
@@ -69,13 +71,37 @@ public class UserService implements IUserService, UserDetailsService {
 			confirmationEmailService.add(confirmationToken);
 
 			String link = "http://localhost:8083/voyageAffaires/user/confirm?token=" + token;
-			confirmationEmailService.send(user.getEmail(), buildEmail(user.getUsername(), link));
+			confirmationEmailService.send(user.getEmail(), buildConfirmationEmail(user.getUsername(), link));
 		} else {
-			msg = "Invalid informations, user not saved.";
-			log.error("Invalid informations, user not saved.");
+			msg = "Invalid informations, Company not saved.";
+			log.error("Invalid informations, Company not saved.");
 		}
 		return msg;
 	}
+	@Override
+	public String addEmployee(User user) {
+		String msg = "";
+		if (verification(user)) {
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			user.setRole(Role.EMPLOYEE);
+			userRepository.save(user);
+			msg = "Employee saved.";
+			log.info("Employee {} saved, confirm your email.", user.getUsername());
+
+			String token = UUID.randomUUID().toString();
+			ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
+					LocalDateTime.now().plusMinutes(15), user);
+			confirmationEmailService.add(confirmationToken);
+
+			String link = "http://localhost:8083/voyageAffaires/user/confirm?token=" + token;
+			confirmationEmailService.send(user.getEmail(), buildConfirmationEmail(user.getUsername(), link));
+		} else {
+			msg = "Invalid informations, Employee not saved.";
+			log.error("Invalid informations, Employee not saved.");
+		}
+		return msg;
+	}
+	
 
 	@Override
 	public String update(User user) {
@@ -107,10 +133,10 @@ public class UserService implements IUserService, UserDetailsService {
 		return msg;
 	}
 
-	public String forgetPasswordEmail(User user) {
+	public String sendForgetPasswordEmail(User user) {
 		User userExistsE = retrieveByEmail(user.getEmail());
 		String link = "http://localhost:8083/voyageAffaires/user/updatePassword";
-		confirmationEmailService.send(user.getEmail(), buildForgetPasswordEmail(userExistsE.getUsername(), link));
+		send(user.getEmail(), buildForgetPasswordEmail(userExistsE.getUsername(), link));
 
 		return "Click on the link on your email to update your password";
 	}
@@ -185,7 +211,7 @@ public class UserService implements IUserService, UserDetailsService {
 		return false;
 	}
 
-	private String buildEmail(String name, String link) {
+	private String buildConfirmationEmail(String name, String link) {
 		return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" + "\n"
 				+ "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" + "\n"
 				+ "  <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;min-width:100%;width:100%!important\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n"
