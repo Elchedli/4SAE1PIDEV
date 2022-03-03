@@ -29,9 +29,22 @@ public class MessageController {
 	public void addProfile(@RequestBody Profile p) {
 		ServiceDiscussion.AddProfile(p);
 	}
-	@GetMapping("addDiscussion/{sender}/{receiver}")
-	public void addDiscussion(@PathVariable("sender") String sender,@PathVariable("receiver") String receiver) {
-		ServiceDiscussion.AddDiscussion(sender,receiver);
+	@PostMapping("addDiscussion")
+	public boolean addDiscussion(@RequestBody Map<String,String> json) {
+		String sender = json.get("sender");
+		String receiver = json.get("receiver");
+		return ServiceDiscussion.AddDiscussion(sender,receiver);
+	}
+	
+	@PostMapping("AllDiscussion")
+	public List<Discussion> AllDiscussion() {
+		return ServiceDiscussion.AllDiscussions();
+	}
+	
+	@PostMapping("EnterDiscussion")
+	public void EnterDiscussion(@RequestBody Map<String,String> json) {
+		String refdisc = json.get("refdisc");
+		ServiceDiscussion.EnterDiscussion(refdisc);
 	}
 	
 	@GetMapping("ListeDiscussion/{username}")
@@ -39,20 +52,23 @@ public class MessageController {
 		return ServiceDiscussion.ListeDiscussion(username);
 	}
 	
-	
-	@GetMapping("ListeDiscussion/{username}/{nomprenom}")
-	public List<Profile> FiltrerDiscussion(@PathVariable("username") String username,@PathVariable("nomprenom") String nomprenom){
+	@PostMapping("FiltrerDiscussion")
+	public List<Discussion> FilterDiscussion(@RequestBody Map<String,String> json) {
+		String username = json.get("username");
+		String nomprenom = json.get("nomprenom");
 		return ServiceDiscussion.FiltrerDiscussion(username, nomprenom);
 	}
+	
 	@GetMapping("SupprimerDiscussion/{refdisc}")
 	public void SupprimerDiscussion(@PathVariable("refdisc") String refdisc) {
 		ServiceDiscussion.SupprimerDiscussion(refdisc);
 	}
 	
 	@PostMapping("sendMessage")
-	public void ajouterEtudiant(@RequestBody Discussion disc,@RequestBody Map<String,String> json) {
+	public String ajouterEtudiant(@RequestBody Map<String,String> json) {
+		String refdisc = json.get("refdisc");
 		String sender = json.get("sender");
 		String messagecontent = json.get("message");
-		ServiceMessage.SendMessage(disc, sender, messagecontent);
+		return ServiceMessage.SendMessage(refdisc, sender, messagecontent);
 	}
 }

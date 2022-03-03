@@ -4,14 +4,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -46,11 +48,15 @@ public class Discussion {
 	Date dateDiscussion;
 	LastSender lastSender;
 	boolean vue_disc;
-	@OneToMany(mappedBy="discussion",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL)
+//	@ToString.Exclude
 	List<Messa> messages;
-	@ManyToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	@ToString.Exclude
 	List<Profile> conversation;
 //	@ManyToMany(mappedBy = "discPartners",cascade = CascadeType.ALL) //only two people
 //	List<Profile> talkers;
-	
+	@Transient
+	boolean friend;
 }
