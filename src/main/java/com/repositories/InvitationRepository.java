@@ -13,5 +13,8 @@ public interface InvitationRepository extends CrudRepository<Invitation, Long>{
 	@Modifying
 	@Query("update Invitation i set i.message= :message where i.sujet= :sujet")
 	void updateInvitation(@Param("message") String message, @Param("sujet") String sujet);
+	
+	boolean existsBySujet(String sujet);
+
 
 }

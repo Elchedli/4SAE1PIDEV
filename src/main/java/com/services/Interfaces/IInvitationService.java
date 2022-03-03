@@ -5,9 +5,9 @@ import java.util.List;
 import com.entities.Invitation;
 
 public interface IInvitationService {
-	String addInvitation(Invitation invitation);
-	String updateInvitation(Invitation invitation);
-	String deleteInvitation(Invitation invitation);
-	Invitation retrieveInvitationBySujet(String sujet);
-	List<Invitation> retrieveAllInvitations();
+	String add(Invitation invitation);
+	String update(Invitation invitation);
+	String delete(Invitation invitation);
+	Invitation retrieveBySujet(String sujet);
+	List<Invitation> retrieveAll();
 }

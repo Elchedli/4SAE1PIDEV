@@ -37,6 +37,7 @@ public class ConfirmationToken implements Serializable{
 	LocalDateTime confirmedAt;
 	@ManyToOne
 	User user;
+	
 	public ConfirmationToken(String token, LocalDateTime localDateTime, LocalDateTime expiredAt, User user) {
 		super();
 		this.token = token;

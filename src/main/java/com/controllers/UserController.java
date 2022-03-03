@@ -2,6 +2,8 @@ package com.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,11 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entities.User;
-import com.services.Implementations.ConfirmationEmailService;
 import com.services.Implementations.UserService;
 
 import lombok.AccessLevel;
@@ -31,33 +31,11 @@ import lombok.experimental.FieldDefaults;
 public class UserController {
 	@Autowired
 	UserService userService;
-	@Autowired
-	ConfirmationEmailService confirmationEmailService;
 	
-	@PostMapping("/addCompany")
-	public String addCompany(@RequestBody User user) {
-		return userService.addCompany(user);
+	@PostMapping("/add")
+	public User add(@Valid @RequestBody User user) {
+		return userService.add(user);
 	}
-	
-	@PostMapping("/addEmployee")
-	public String addEmployee(@RequestBody User user) {
-		return userService.addEmployee(user);
-	}
-	
-	@GetMapping("/confirm")
-	public String confirm(@RequestParam("token") String token) {
-		return confirmationEmailService.confirmToken(token);
-	}
-	
-	@PostMapping("/forgetPassword")
-	public String forgetPassword(@RequestBody User user) {
-		return userService.sendForgetPasswordEmail(user);
-	}
-	@PutMapping("/updatePassword")
-	public String updatePassword(@RequestBody User user) {
-		return userService.updatePassword(user);
-	}
-	
 	
 	@PutMapping("/update")
 	public String update(@RequestBody User user) {

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,8 +45,16 @@ public class User implements Serializable, UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
+	@NotBlank(message = "Username required.")
+	@Column(unique=true)
 	String username;
+	@NotBlank(message = "Email required.")
+	@Column(unique=true)
+	@Email(message = "Email not valid.")
 	String email;
+	@NotBlank(message = "Password required")
+	@Column(length = 100)
+	@Size(min = 8, max = 60, message  = "password must have 8 to 20 caracters.")
 	String password;
 	@Enumerated(EnumType.STRING)
 	Role role;
