@@ -46,15 +46,15 @@ public class User implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	@NotBlank(message = "Username required.")
-	@Column(unique=true)
+	@Column(unique = true)
 	String username;
 	@NotBlank(message = "Email required.")
-	@Column(unique=true)
+	@Column(unique = true)
 	@Email(message = "Email not valid.")
 	String email;
 	@NotBlank(message = "Password required")
 	@Column(length = 100)
-	@Size(min = 8, max = 60, message  = "password must have 8 to 20 caracters.")
+	@Size(min = 8, max = 60, message = "password must have 8 to 20 caracters.")
 	String password;
 	@Enumerated(EnumType.STRING)
 	Role role;
@@ -63,14 +63,14 @@ public class User implements Serializable, UserDetails {
 	@JsonIgnore
 	@OneToMany
 	List<Invitation> invitations;
-	
+
 	public User(String username, String email, String password) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
 	}
-	
+
 	public User(String username, String email, String password, Role role) {
 		super();
 		this.username = username;
@@ -78,31 +78,31 @@ public class User implements Serializable, UserDetails {
 		this.password = password;
 		this.role = role;
 	}
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getAuthority());
 		return Collections.singletonList(authority);
 	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
+
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
 	@Override
 	public boolean isAccountNonLocked() {
 		return !locked;
 	}
+
 	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
 
-	
-	
-	
-	
 }

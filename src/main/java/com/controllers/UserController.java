@@ -24,49 +24,48 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-
 @RestController
 @RequestMapping("/user")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserController {
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("/add")
 	public User add(@Valid @RequestBody User user) {
 		return userService.add(user);
 	}
-	
+
 	@PutMapping("/update")
 	public String update(@RequestBody User user) {
 		return userService.update(user);
 	}
-	
+
 	@DeleteMapping("/delete")
 	public String delete(@RequestBody User user) {
 		return userService.delete(user);
 	}
-	
+
 	@GetMapping("/retrieveByUsername")
 	public User retrieveByUsername(@RequestBody UsernameEmail usernameEmail) {
 		return userService.retrieveByUsername(usernameEmail.getUsername());
 	}
-	
+
 	@GetMapping("/retrieveByEmail")
 	public User retrieveByEmail(@RequestBody UsernameEmail usernameEmail) {
 		return userService.retrieveByEmail(usernameEmail.getEmail());
 	}
-	
+
 	@GetMapping("/retrieveAll")
 	public List<User> retrieveAll() {
 		return userService.retrieveAll();
 	}
-	
+
 	@GetMapping("/loadUserByUsername")
 	public UserDetails loadUserByUsername(String username) {
 		return userService.loadUserByUsername(username);
 	}
-	
+
 }
 
 @Getter

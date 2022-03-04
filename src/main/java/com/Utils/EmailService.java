@@ -7,18 +7,24 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailParseException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import com.entities.Invitation;
 
-public class Email {
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class EmailService {
 	@Autowired
-	static JavaMailSender mailSender;
+	JavaMailSender mailSender;
 
 	@Async
-	public static void send(String to, String subject, String emailForm) {
+	public void send(String to, String subject, String emailForm) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -30,28 +36,28 @@ public class Email {
 			throw new IllegalStateException("failed to send email");
 		}
 	}
-	
-	@Async
-    public static void sendInvitation(Invitation invitation, String link) {
-        try {
-        	FileSystemResource file 
-            = new FileSystemResource(new File(invitation.getImage()));
-        	
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setFrom("noreply@baeldung.com");
-            helper.setTo(invitation.getPour());
-            helper.setSubject(invitation.getSujet());
-            helper.setText(invitation.getMessage() + "/n Click on the link to sign up:" + link);
-            helper.addAttachment("Invoice", file); 
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            throw new IllegalStateException("failed to send email");
-        }
-    }
 
-	public static String buildEmail(String username, String message, String link) {
+	@Async
+	public void sendInvitation(Invitation invitation, String link) {
+		MimeMessage message = mailSender.createMimeMessage();
+
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+			helper.setFrom(invitation.getDe());
+			helper.setTo(invitation.getPour());
+			helper.setSubject(invitation.getSujet());
+			helper.setText(invitation.getMessage());
+			FileSystemResource file = new FileSystemResource(new File("invitation-photos/"+invitation.getSujet()+"/"+ invitation.getImage()));
+			log.info("hello file : {}", file);
+			helper.addAttachment(file.getFilename(), file);
+		} catch (MessagingException e) {
+			throw new MailParseException(e);
+		}
+		mailSender.send(message);
+	}
+
+	public String buildEmail(String username, String message, String link) {
 		return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" + "\n"
 				+ "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" + "\n"
 				+ "  <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;min-width:100%;width:100%!important\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n"
@@ -80,10 +86,11 @@ public class Email {
 				+ "      <td width=\"10\" valign=\"middle\"><br></td>\n"
 				+ "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n"
 				+ "        \n"
-				+ "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + username
-				+ ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> " + message
+				+ "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi "
+				+ username + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> "
+				+ message
 				+ " </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\""
-				+ link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>"
+				+ link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 5 minutes. <p>See you soon</p>"
 				+ "        \n" + "      </td>\n" + "      <td width=\"10\" valign=\"middle\"><br></td>\n"
 				+ "    </tr>\n" + "    <tr>\n" + "      <td height=\"30\"><br></td>\n" + "    </tr>\n"
 				+ "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" + "\n" + "</div></div>";

@@ -23,7 +23,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ConfirmationToken implements Serializable{
+public class ConfirmationToken implements Serializable {
 	/**
 	 * 
 	 */
@@ -37,7 +37,7 @@ public class ConfirmationToken implements Serializable{
 	LocalDateTime confirmedAt;
 	@ManyToOne
 	User user;
-	
+
 	public ConfirmationToken(String token, LocalDateTime localDateTime, LocalDateTime expiredAt, User user) {
 		super();
 		this.token = token;
@@ -45,5 +45,5 @@ public class ConfirmationToken implements Serializable{
 		this.expiredAt = expiredAt;
 		this.user = user;
 	}
-	
+
 }

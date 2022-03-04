@@ -12,23 +12,24 @@ import com.entities.enums.Role;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 	boolean existsByEmail(String email);
+
 	boolean existsByUsername(String username);
 
 	User findByUsername(String username);
+
 	User findByEmail(String email);
-	
+
 	@Modifying
 	@Query("update User u set u.username= :username, u.password= :password, u.role= :role where u.email= :email")
 	void update(@Param("username") String username, @Param("password") String password, @Param("role") Role role,
 			@Param("email") String email);
-	
+
 	@Modifying
-    @Query("update User u set u.password = :password where u.email= :email")
-    int updatePassword(@Param("password") String password,@Param("email") String email);
-	
-    @Modifying
-    @Query("update User u set u.enabled = TRUE where u.email= :email")
-    int enableUser(@Param("email") String email);
-    
-    
+	@Query("update User u set u.password = :password where u.email= :email")
+	int updatePassword(@Param("password") String password, @Param("email") String email);
+
+	@Modifying
+	@Query("update User u set u.enabled = TRUE where u.email= :email")
+	int enableUser(@Param("email") String email);
+
 }

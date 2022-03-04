@@ -3,8 +3,6 @@ package com.services.Implementations;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -19,50 +17,46 @@ import lombok.experimental.FieldDefaults;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ConfirmationTokenService implements IConfirmationTokenService{
+public class ConfirmationTokenService implements IConfirmationTokenService {
 	@Autowired
 	ConfirmationTokenRepository confirmationTokenRepository;
 	@Autowired
 	RegistrationService registrationService;
-     
+
 	@Override
-	public ConfirmationToken add(ConfirmationToken confirmationToken){
+	public ConfirmationToken add(ConfirmationToken confirmationToken) {
 		return confirmationTokenRepository.save(confirmationToken);
 	}
-	
+
 	@Override
-    public int updateConfirmedAt(String token) {
-        return confirmationTokenRepository.updateConfirmedAt(
-                token, LocalDateTime.now());
-    }
-	
+	public int updateConfirmedAt(String token) {
+		return confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
+	}
+
 	@Override
 	public Optional<ConfirmationToken> getByToken(String token) {
-        return confirmationTokenRepository.findByToken(token);
-    }
- 
-    @Override
-    @Transactional
-    public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = 
-                getByToken(token)
-                .orElseThrow(() ->
-                        new IllegalStateException("token not found"));
+		return confirmationTokenRepository.findByToken(token);
+	}
 
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
-        }
+	@Override
+	@Transactional
+	public String confirmToken(String token) {
+		ConfirmationToken confirmationToken = getByToken(token)
+				.orElseThrow(() -> new IllegalStateException("token not found"));
 
-        LocalDateTime expiredAt = confirmationToken.getExpiredAt();
+		if (confirmationToken.getConfirmedAt() != null) {
+			throw new IllegalStateException("email already confirmed");
+		}
 
-        if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
+		LocalDateTime expiredAt = confirmationToken.getExpiredAt();
 
-        updateConfirmedAt(token);
-        registrationService.enableUser(confirmationToken.getUser().getEmail());
-        return "confirmed";
-    }
-    
-    
+		if (expiredAt.isBefore(LocalDateTime.now())) {
+			throw new IllegalStateException("token expired");
+		}
+
+		updateConfirmedAt(token);
+		registrationService.enableUser(confirmationToken.getUser().getEmail());
+		return "confirmed";
+	}
+
 }

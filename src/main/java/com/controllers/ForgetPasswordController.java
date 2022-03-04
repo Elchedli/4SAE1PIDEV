@@ -19,11 +19,12 @@ import lombok.experimental.FieldDefaults;
 public class ForgetPasswordController {
 	@Autowired
 	ForgetPasswordService forgetPasswordService;
-	
+
 	@PostMapping("/forgetPassword")
 	public String forgetPassword(@RequestBody User user) {
 		return forgetPasswordService.sendEmail(user.getEmail());
 	}
+
 	@PutMapping("/updatePassword")
 	public String updatePassword(@RequestBody User user) {
 		return forgetPasswordService.updatePassword(user);

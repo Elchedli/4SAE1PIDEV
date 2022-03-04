@@ -3,6 +3,9 @@ package com.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,12 +38,14 @@ public class InvitationController {
 	InvitationService invitationService;
 
 	@PostMapping("/add")
-	public String addInvitation(@RequestPart Invitation invitation, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+	@Transactional
+	public String addInvitation(@Valid @RequestPart Invitation invitation, @RequestParam("image") MultipartFile multipartFile)
+			throws IOException {
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		invitation.setImage(fileName);
-        String uploadDir = "invitation-photos/" + invitation.getMessage();
-        FileUpload.saveFile(uploadDir, fileName, multipartFile);
-        return invitationService.add(invitation);
+		String uploadDir = "invitation-photos/" + invitation.getSujet();
+		FileUpload.saveFile(uploadDir, fileName, multipartFile);
+		return invitationService.add(invitation);
 	}
 
 	@PutMapping("/update")

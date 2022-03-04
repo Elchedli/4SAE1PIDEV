@@ -14,6 +14,7 @@ import com.entities.ConfirmationToken;
 @Repository
 public interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
 	Optional<ConfirmationToken> findByToken(String token);
+
 	@Modifying
 	@Query("update ConfirmationToken c set c.confirmedAt = :confirmedAt where c.token = :token")
 	int updateConfirmedAt(@Param("token") String token, @Param("confirmedAt") LocalDateTime confirmedAt);

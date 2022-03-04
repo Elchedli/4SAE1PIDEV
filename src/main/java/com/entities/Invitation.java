@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Invitation implements Serializable{
+public class Invitation implements Serializable {
 	/**
 	 * 
 	 */
@@ -41,7 +41,7 @@ public class Invitation implements Serializable{
 	@NotBlank(message = "Message required.")
 	String message;
 	String image;
-	
+
 	public Invitation(String de, String pour, String sujet, String message, String image) {
 		super();
 		this.de = de;
@@ -51,6 +51,5 @@ public class Invitation implements Serializable{
 		this.image = image;
 
 	}
-	
-	
+
 }

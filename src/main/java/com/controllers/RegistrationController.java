@@ -25,17 +25,17 @@ public class RegistrationController {
 	RegistrationService registrationService;
 	@Autowired
 	ConfirmationTokenService confirmationTokenService;
-	
-	@PostMapping("/Company")
+
+	@PostMapping("/company")
 	public String addCompany(@Valid @RequestBody User company) {
 		return registrationService.addCompany(company);
 	}
-	
-	@PostMapping("/Employee")
+
+	@PostMapping("/employee")
 	public String addEmployee(@Valid @RequestBody User employee) {
 		return registrationService.addEmployee(employee);
 	}
-	
+
 	@GetMapping("/confirm")
 	public String confirm(@RequestParam("token") String token) {
 		return confirmationTokenService.confirmToken(token);

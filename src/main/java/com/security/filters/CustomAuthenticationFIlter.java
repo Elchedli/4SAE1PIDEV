@@ -36,7 +36,8 @@ public class CustomAuthenticationFIlter extends UsernamePasswordAuthenticationFi
 		this.authenticationManager = authenticationManager;
 	}
 
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+			throws AuthenticationException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		log.info("Username is {}.", username);
@@ -51,23 +52,21 @@ public class CustomAuthenticationFIlter extends UsernamePasswordAuthenticationFi
 			Authentication authentication) throws IOException, ServletException {
 		User user = (User) authentication.getPrincipal();
 		Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-		String access_token = JWT.create()
-				.withSubject(user.getUsername())
+		String access_token = JWT.create().withSubject(user.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
 				.withIssuer(request.getRequestURI().toString())
-				.withClaim("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.withClaim("role",
+						user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.sign(algorithm);
-		String refresh_token = JWT.create()
-				.withSubject(user.getUsername())
+		String refresh_token = JWT.create().withSubject(user.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-				.withIssuer(request.getRequestURI().toString())
-				.sign(algorithm);
-		
-		//afficher les tokens dans Headers
+				.withIssuer(request.getRequestURI().toString()).sign(algorithm);
+
+		// afficher les tokens dans Headers
 		response.setHeader("access_token", access_token);
 		response.setHeader("refresh_token", refresh_token);
-		//afficher les tokens dans Body
-		Map<String , String> tokens = new HashMap<>();
+		// afficher les tokens dans Body
+		Map<String, String> tokens = new HashMap<>();
 		tokens.put("access_token", access_token);
 		tokens.put("refresh_token", refresh_token);
 		response.setContentType("application/json");

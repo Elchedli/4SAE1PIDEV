@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-import com.Utils.Email;
+import com.Utils.EmailService;
 import com.entities.Invitation;
 import com.entities.User;
 import com.entities.enums.Role;
@@ -17,15 +17,17 @@ import com.services.Interfaces.IInvitationService;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Transactional
-public class InvitationService implements IInvitationService{
+public class InvitationService implements IInvitationService {
 	@Autowired
 	InvitationRepository invitationRepository;
 	@Autowired
 	UserService userService;
-	
+	@Autowired
+	EmailService emailService;
 
 	@Override
 	@Transactional
@@ -33,32 +35,32 @@ public class InvitationService implements IInvitationService{
 		String msg = "";
 		User companyExists = userService.retrieveByEmail(invitation.getDe());
 		User employeeExists = userService.retrieveByEmail(invitation.getPour());
-		if(companyExists == null){
+		if (companyExists == null) {
 			msg = "company doesn't exist.";
-		} else if(employeeExists != null){
+		} else if (employeeExists != null) {
 			msg = "employee already exist.";
 		} else {
-			if(companyExists.getRole() != Role.COMPANY){
+			if (companyExists.getRole() != Role.COMPANY) {
 				msg = "this user can't send invitations.";
 			} else {
 				invitationRepository.save(invitation);
 				companyExists.getInvitations().add(invitation);
 				String link = "http://localhost:8083/voyageAffaires/registration/addEmployee";
-				Email.sendInvitation(invitation, link);
+				emailService.sendInvitation(invitation, link);
 				msg = "Invitation saved.";
 			}
 		}
 		return msg;
 	}
-	
+
 	@Override
 	public String update(Invitation invitation) {
 		String msg = "";
 		boolean ExistsBySujet = invitationRepository.existsBySujet(invitation.getSujet());
-		if(ExistsBySujet){
+		if (ExistsBySujet) {
 			invitationRepository.updateInvitation(invitation.getMessage(), invitation.getSujet());
 			msg = "invitation updated";
-		} else 
+		} else
 			msg = "invitation not found";
 		return msg;
 	}
@@ -67,10 +69,10 @@ public class InvitationService implements IInvitationService{
 	public String delete(Invitation invitation) {
 		String msg = "";
 		boolean ExistsBySujet = invitationRepository.existsBySujet(invitation.getSujet());
-		if(ExistsBySujet){
+		if (ExistsBySujet) {
 			invitationRepository.delete(invitation);
 			msg = "invitation deleted";
-		} else 
+		} else
 			msg = "invitation not found";
 		return msg;
 	}
@@ -78,9 +80,9 @@ public class InvitationService implements IInvitationService{
 	@Override
 	public Invitation retrieveBySujet(String sujet) {
 		Boolean ExistsBySujet = invitationRepository.existsBySujet(sujet);
-		if(ExistsBySujet)
+		if (ExistsBySujet)
 			return invitationRepository.findInvitationBySujet(sujet);
-		 else 
+		else
 			return null;
 	}
 
@@ -88,6 +90,5 @@ public class InvitationService implements IInvitationService{
 	public List<Invitation> retrieveAll() {
 		return (List<Invitation>) invitationRepository.findAll();
 	}
-	
-	
+
 }

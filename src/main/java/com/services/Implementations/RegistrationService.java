@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.Utils.Email;
+import com.Utils.EmailService;
 import com.entities.ConfirmationToken;
 import com.entities.User;
 import com.entities.enums.Role;
@@ -21,13 +21,15 @@ import lombok.experimental.FieldDefaults;
 @Service
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RegistrationService implements IRegistrationService{
+public class RegistrationService implements IRegistrationService {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
 	ConfirmationTokenService confirmationEmailService;
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	EmailService emailService;
 
 	@Override
 	public String addCompany(User company) {
@@ -49,13 +51,13 @@ public class RegistrationService implements IRegistrationService{
 			confirmationEmailService.add(confirmationToken);
 
 			String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
-			Email.send(company.getEmail(),"Confirm your email.", Email.buildEmail(company.getUsername(),
+			emailService.send(company.getEmail(), "Confirm your email.", emailService.buildEmail(company.getUsername(),
 					"Thank you for registering. Please click on the below link to activate your account:", link));
 			msg = "Company saved, please confirm your email.";
 		}
 		return msg;
 	}
-	
+
 	@Override
 	public String addEmployee(User employee) {
 		String msg = "";
@@ -75,15 +77,15 @@ public class RegistrationService implements IRegistrationService{
 			confirmationEmailService.add(confirmationToken);
 
 			String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
-			Email.send(employee.getEmail(),"Confirm your email.", Email.buildEmail(employee.getUsername(),
+			emailService.send(employee.getEmail(), "Confirm your email.", emailService.buildEmail(employee.getUsername(),
 					"Thank you for registering. Please click on the below link to activate your account:", link));
 			msg = "Employee saved, please confirm your email.";
 		}
 		return msg;
 	}
-	
+
 	@Override
-    public int enableUser(String email) {
-        return userRepository.enableUser(email);
-    }
+	public int enableUser(String email) {
+		return userRepository.enableUser(email);
+	}
 }
