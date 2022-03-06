@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.entities.Invitation;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class EmailService {
 	@Autowired
 	JavaMailSender mailSender;
@@ -49,7 +46,6 @@ public class EmailService {
 			helper.setSubject(invitation.getSujet());
 			helper.setText(invitation.getMessage());
 			FileSystemResource file = new FileSystemResource(new File("invitation-photos/"+invitation.getSujet()+"/"+ invitation.getImage()));
-			log.info("hello file : {}", file);
 			helper.addAttachment(file.getFilename(), file);
 		} catch (MessagingException e) {
 			throw new MailParseException(e);

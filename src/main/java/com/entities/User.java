@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -60,9 +61,18 @@ public class User implements Serializable, UserDetails {
 	Role role;
 	Boolean locked = false;
 	Boolean enabled = false;
-	@JsonIgnore
 	@OneToMany
+	@JsonIgnore
 	List<Invitation> invitations;
+	@OneToOne
+	@JsonIgnore
+	UserMemberships company;
+	@OneToMany
+	@JsonIgnore
+	List<UserMemberships> employees;
+	
+	
+	
 
 	public User(String username, String email, String password) {
 		super();
@@ -104,5 +114,4 @@ public class User implements Serializable, UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
-
 }
