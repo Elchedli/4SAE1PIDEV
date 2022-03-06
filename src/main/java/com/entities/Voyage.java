@@ -71,6 +71,7 @@ public class Voyage implements Serializable{
 	@Column(length = 9999999)
 	@NotBlank(message = "Program is mandatory")
 	String program;
+	@JsonIgnore
 	@Lob()
 	byte[] picture;
 	@Positive
@@ -85,4 +86,6 @@ public class Voyage implements Serializable{
 	@Where(clause = "role='EMPLOYEE'")
 	@ManyToMany(cascade = CascadeType.ALL)
 	List<User> employees;
+	
+
 }

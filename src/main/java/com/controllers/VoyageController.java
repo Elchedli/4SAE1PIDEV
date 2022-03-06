@@ -1,8 +1,13 @@
 package com.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,14 +31,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.Utils.FileUploadUtil;
+import com.Utils.GeneratePdfReport;
+import com.entities.User;
 import com.entities.Voyage;
 import com.services.Interfaces.IVoyageService;
 
@@ -63,8 +72,9 @@ public class VoyageController {
 	public String ajoutervoyage(@RequestPart Voyage voyage,@RequestParam("image") MultipartFile picture) throws IOException{
     String fileName = StringUtils.cleanPath(picture.getOriginalFilename());   
     voyage.setPicture(picture.getBytes());
-    String uploadDir = "TripPictures/" + voyage.getEntreprise().getUsername();
+    String uploadDir = "TripPictures/" + voyage.getDestination();
     FileUploadUtil.saveFile(uploadDir, fileName, picture);
+ //   return fileName;
 	return voyageService.ajoutVoyage(voyage);
 	}
 	
@@ -119,5 +129,31 @@ public class VoyageController {
 		 return voyageService.addEmployeeToVoyage(id, idVoyage);	
 	}
 	
+	@GetMapping("/matchProfession/{idEmployee}")
+	@ResponseBody
+	public  List<Voyage> FindVoyageFromProfession(@PathVariable("idEmployee") Long idEmployee){
+		return voyageService.getVoyageFromProfession(idEmployee);
+	}
+
+	@PostMapping("/MatchUsers/{idUserOnline}/{idToMatch}")
+	@ResponseBody
+	public String ajoutervoyage(@PathVariable("idUserOnline") Long idUserOnline,@PathVariable("idToMatch") Long idToMatch){
+	return voyageService.MatchingUsers(idUserOnline, idToMatch);
+	}
+	
+	@GetMapping("/SuggestionUser/{idEmployee}")
+	@ResponseBody
+	public List<User> SuggestionUser(@PathVariable("idEmployee") Long idEmployee) throws IOException{
+	return voyageService.SuggestionUser(idEmployee);
+	}
+	
+
+	@GetMapping("/afficherPDF/{id}")
+	public void eventpdf (@PathVariable("id") Long id) {
+			   
+		voyageService.eventpdf(id);
+	}
+
+
 
 }

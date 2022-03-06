@@ -1,23 +1,21 @@
 package com.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Locale.Category;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.enums.Role;
+import com.enums.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
@@ -33,46 +31,34 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@ToString
-public class User implements Serializable{
+public class Post implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	String username;
-	String email;
-	String password;
-	Boolean locked = false;
-	Boolean enabled = false;
+	private int id;
+	private String title;
+	private String description;
 	@Enumerated(EnumType.STRING)
-	Role role;
-	@OneToMany(cascade = CascadeType.ALL)
-	List<Invitation> invitations;
+	private Category category;
+	@Enumerated(EnumType.STRING)
+	private State state;
 	@JsonIgnore
-	@OneToMany(mappedBy="entreprise")
-	List<Voyage> voyagesEntre;
-    @JsonIgnore
-	@ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
-	List<Voyage> voyagesEmpl;
-	
-    @JsonIgnore
-	@ManyToMany(mappedBy = "mUsers", cascade = CascadeType.ALL)
-	List<Matching> matchedUsers;
-    @JsonIgnore
-    @ManyToMany
-    private List<User> friends;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	private Set<Comment> comment;
+	@JsonIgnore
+	@ManyToOne
+	private User owner;
+	private String followers;
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Set<Tag> tag;
 
-    @JsonIgnore
-	@OneToOne
-	Profile profile;
-    @JsonIgnore
-	@OneToOne
-	Company company;
-	
+	// private Set<User> subscribers;
 
-	
+	public void addComment(Comment c) {
+		this.comment.add(c);
+	}
+
 }
