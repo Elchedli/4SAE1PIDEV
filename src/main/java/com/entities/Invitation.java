@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.entities.enums.Status;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +43,7 @@ public class Invitation implements Serializable {
 	@NotBlank(message = "Message required.")
 	String message;
 	String image;
+	Status status = Status.WAITING;
 
 	public Invitation(String de, String pour, String sujet, String message, String image) {
 		super();

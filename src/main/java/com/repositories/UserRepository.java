@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.entities.User;
-import com.entities.enums.Role;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -18,10 +17,13 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	User findByUsername(String username);
 
 	User findByEmail(String email);
+	
+	User findByResetPasswordToken(String token);
+
 
 	@Modifying
-	@Query("update User u set u.username= :username, u.password= :password, u.role= :role where u.email= :email")
-	void update(@Param("username") String username, @Param("password") String password, @Param("role") Role role,
+	@Query("update User u set u.username= :username, u.password= :password where u.email= :email")
+	void update(@Param("username") String username, @Param("password") String password,
 			@Param("email") String email);
 
 	@Modifying

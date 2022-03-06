@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.entities.ConfirmationToken;
+import com.entities.User;
 import com.repositories.ConfirmationTokenRepository;
 import com.services.Interfaces.IConfirmationTokenService;
 
@@ -41,22 +42,29 @@ public class ConfirmationTokenService implements IConfirmationTokenService {
 	@Override
 	@Transactional
 	public String confirmToken(String token) {
+		String msg = "";
 		ConfirmationToken confirmationToken = getByToken(token)
 				.orElseThrow(() -> new IllegalStateException("token not found"));
 
 		if (confirmationToken.getConfirmedAt() != null) {
-			throw new IllegalStateException("email already confirmed");
+			msg = "email already confirmed";
+		} else {
+			LocalDateTime expiredAt = confirmationToken.getExpiredAt();
+			if (expiredAt.isBefore(LocalDateTime.now())) {
+				msg = "token expired";
+			} else {
+				updateConfirmedAt(token);
+				registrationService.enableUser(confirmationToken.getUser().getEmail());
+				msg = "confirmed";
+			}
 		}
-
-		LocalDateTime expiredAt = confirmationToken.getExpiredAt();
-
-		if (expiredAt.isBefore(LocalDateTime.now())) {
-			throw new IllegalStateException("token expired");
-		}
-
-		updateConfirmedAt(token);
-		registrationService.enableUser(confirmationToken.getUser().getEmail());
-		return "confirmed";
+		return msg;
+	}
+	
+	@Override
+	public void deleteToken(User user){
+		ConfirmationToken ct = confirmationTokenRepository.findByUser(user);
+		confirmationTokenRepository.delete(ct);
 	}
 
 }

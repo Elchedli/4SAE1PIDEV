@@ -3,7 +3,9 @@ package com.services.Interfaces;
 import com.entities.User;
 
 public interface IForgetPasswordService {
-	String sendEmail(String email);
-
-	String updatePassword(User user);
+	String updateResetPasswordToken(String email);
+	
+	User retrieveByResetPasswordToken(String resetPasswordToken);
+	
+	String updatePassword(User user, String newPassword);
 }

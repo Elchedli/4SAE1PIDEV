@@ -32,6 +32,33 @@ public class RegistrationService implements IRegistrationService {
 	EmailService emailService;
 
 	@Override
+	public String addAdmin(User user) {
+		String msg = "";
+		Boolean ExistsByUsername = userRepository.existsByUsername(user.getUsername());
+		Boolean ExistsByEmail = userRepository.existsByEmail(user.getEmail());
+		if (ExistsByUsername)
+			msg = "Username exists.";
+		else if (ExistsByEmail)
+			msg = "Email exists.";
+		else {
+		user.setRole(Role.ADMIN);
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userRepository.save(user);
+		
+		String token = UUID.randomUUID().toString();
+		ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
+				LocalDateTime.now().plusMinutes(5), user);
+		confirmationEmailService.add(confirmationToken);
+
+		String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
+		emailService.send(user.getEmail(), "Confirm your email.", emailService.buildEmail(user.getUsername(),
+				"Thank you for registering. Please click on the below link to activate your account:", link));
+		msg = "Company saved, please confirm your email.";
+		}
+		return msg;
+	}
+	
+	@Override
 	public String addCompany(User company) {
 		String msg = "";
 		Boolean ExistsByUsername = userRepository.existsByUsername(company.getUsername());

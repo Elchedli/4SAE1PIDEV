@@ -39,8 +39,8 @@ public class InvitationController {
 
 	@PostMapping("/add")
 	@Transactional
-	public String addInvitation(@Valid @RequestPart Invitation invitation, @RequestParam("image") MultipartFile multipartFile)
-			throws IOException {
+	public String addInvitation(@Valid @RequestPart Invitation invitation,
+			@RequestParam("image") MultipartFile multipartFile) throws IOException {
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		invitation.setImage(fileName);
 		String uploadDir = "invitation-photos/" + invitation.getSujet();
@@ -66,6 +66,12 @@ public class InvitationController {
 	@GetMapping("/retrieveAll")
 	public List<Invitation> retrieveAll() {
 		return invitationService.retrieveAll();
+	}
+
+	@PutMapping("/activate")
+	public void activateInvitation(@RequestBody Subject subject) {
+		invitationService.activateInvitation(subject.getSujet());
+		
 	}
 }
 

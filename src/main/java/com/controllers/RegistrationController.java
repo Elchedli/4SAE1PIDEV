@@ -26,6 +26,11 @@ public class RegistrationController {
 	@Autowired
 	ConfirmationTokenService confirmationTokenService;
 
+	@PostMapping("/admin")
+	public String add(@Valid @RequestBody User user) {
+		return registrationService.addAdmin(user);
+	}
+	
 	@PostMapping("/company")
 	public String addCompany(@Valid @RequestBody User company) {
 		return registrationService.addCompany(company);

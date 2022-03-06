@@ -8,4 +8,6 @@ public interface IRegistrationService {
 	String addEmployee(User employee);
 
 	int enableUser(String email);
+
+	String addAdmin(User user);
 }

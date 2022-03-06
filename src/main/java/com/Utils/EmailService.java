@@ -44,7 +44,7 @@ public class EmailService {
 			helper.setFrom(invitation.getDe());
 			helper.setTo(invitation.getPour());
 			helper.setSubject(invitation.getSujet());
-			helper.setText(invitation.getMessage());
+			helper.setText(invitation.getMessage() + link);
 			FileSystemResource file = new FileSystemResource(new File("invitation-photos/"+invitation.getSujet()+"/"+ invitation.getImage()));
 			helper.addAttachment(file.getFilename(), file);
 		} catch (MessagingException e) {

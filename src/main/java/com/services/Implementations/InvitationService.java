@@ -90,5 +90,9 @@ public class InvitationService implements IInvitationService {
 	public List<Invitation> retrieveAll() {
 		return (List<Invitation>) invitationRepository.findAll();
 	}
+	
+	public void activateInvitation(String sujet){
+		invitationRepository.activate(sujet);
+	}
 
 }

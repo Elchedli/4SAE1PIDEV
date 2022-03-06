@@ -3,12 +3,19 @@ package com.services.Implementations;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Utils.EmailService;
 import com.entities.User;
 import com.entities.UserMemberships;
 import com.services.Interfaces.IUserMembershipsService;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+@Service
+@Transactional
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserMembershipsService implements IUserMembershipsService {
 	@Autowired
 	UserService userService;

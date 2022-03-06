@@ -10,12 +10,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.entities.ConfirmationToken;
+import com.entities.User;
 
 @Repository
 public interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
 	Optional<ConfirmationToken> findByToken(String token);
+	ConfirmationToken findByUser(User user);
 
 	@Modifying
 	@Query("update ConfirmationToken c set c.confirmedAt = :confirmedAt where c.token = :token")
 	int updateConfirmedAt(@Param("token") String token, @Param("confirmedAt") LocalDateTime confirmedAt);
+	
+	
 }

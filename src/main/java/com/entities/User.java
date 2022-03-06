@@ -47,10 +47,8 @@ public class User implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	@NotBlank(message = "Username required.")
-	@Column(unique = true)
 	String username;
 	@NotBlank(message = "Email required.")
-	@Column(unique = true)
 	@Email(message = "Email not valid.")
 	String email;
 	@NotBlank(message = "Password required")
@@ -61,6 +59,7 @@ public class User implements Serializable, UserDetails {
 	Role role;
 	Boolean locked = false;
 	Boolean enabled = false;
+	String resetPasswordToken;
 	@OneToMany
 	@JsonIgnore
 	List<Invitation> invitations;

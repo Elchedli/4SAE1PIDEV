@@ -29,6 +29,8 @@ public class UserService implements IUserService, UserDetailsService {
 	UserRepository userRepository;
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	ConfirmationTokenService confirmationTokenService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,10 +41,7 @@ public class UserService implements IUserService, UserDetailsService {
 				authorities);
 	}
 
-	@Override
-	public User add(User user) {
-		return userRepository.save(user);
-	}
+	
 
 	@Override
 	public String update(User user) {
@@ -50,7 +49,7 @@ public class UserService implements IUserService, UserDetailsService {
 		Boolean Exists = userRepository.existsByEmail(user.getEmail());
 		if (Exists) {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-			userRepository.update(user.getUsername(), user.getPassword(), user.getRole(), user.getEmail());
+			userRepository.update(user.getUsername(), user.getPassword(), user.getEmail());
 			msg = "User updated.";
 		} else
 			msg = "User not found.";
@@ -60,9 +59,10 @@ public class UserService implements IUserService, UserDetailsService {
 	@Override
 	public String delete(User user) {
 		String msg = "";
-		Boolean ExistsByUsername = userRepository.existsByUsername(user.getUsername());
-		if (ExistsByUsername) {
-			userRepository.delete(user);
+		User exists = retrieveByUsername(user.getUsername());
+		confirmationTokenService.deleteToken(exists);
+		if (exists != null) {
+			userRepository.delete(exists);
 			msg = "User deleted.";
 		} else
 			msg = "User not found.";

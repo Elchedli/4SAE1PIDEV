@@ -18,4 +18,7 @@ public interface InvitationRepository extends CrudRepository<Invitation, Long> {
 
 	boolean existsBySujet(String sujet);
 
+	@Modifying
+	@Query("update Invitation u set u.status = ACTIVE where u.sujet= :sujet")
+	int activate(@Param("sujet") String sujet);
 }

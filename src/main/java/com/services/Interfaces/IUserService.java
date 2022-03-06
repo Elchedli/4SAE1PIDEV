@@ -5,8 +5,6 @@ import java.util.List;
 import com.entities.User;
 
 public interface IUserService {
-	User add(User user);
-
 	String update(User user);
 
 	String delete(User user);

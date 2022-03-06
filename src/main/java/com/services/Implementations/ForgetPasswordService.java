@@ -1,5 +1,7 @@
 package com.services.Implementations;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,25 +25,31 @@ public class ForgetPasswordService implements IForgetPasswordService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	EmailService emailService;
-	
-	public String sendEmail(String email) {
+	@Override
+	public String updateResetPasswordToken(String email) {
 		String msg = "";
-		Boolean ExistsByEmail = userRepository.existsByEmail(email);
-		if (!ExistsByEmail)
-			msg = "Email not found.";
-		else {
-			String username = userRepository.findByEmail(email).getUsername();
-			String link = "http://localhost:8083/voyageAffaires/user/updatePassword";
-			emailService.send(email, "Forget Password",
-					emailService.buildEmail(username, "Click on the below link to update your password:", link));
-			msg = "Click on the link on your email to update your password";
-		}
+		User user = userRepository.findByEmail(email);
+		if (user != null) {
+			String token = UUID.randomUUID().toString();
+			user.setResetPasswordToken(token);
+			userRepository.save(user);
+			msg = "password token saved.";
+			String link = "http://localhost:8083/voyageAffaires/forgetPassword/reset_password?token=" + token;
+			emailService.send(email,"Forget Password", emailService.buildEmail(email, "Click to the link to update your password", link));
+
+		} else
+			msg = "user not found";
 		return msg;
 	}
-
-	public String updatePassword(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userRepository.updatePassword(user.getPassword(), user.getEmail());
-		return "Password updated";
+	@Override
+	public User retrieveByResetPasswordToken(String resetPasswordToken){
+		return userRepository.findByResetPasswordToken(resetPasswordToken);
+	}
+	@Override
+	public String updatePassword(User user, String newPassword){
+		user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+		user.setResetPasswordToken(null);
+		userRepository.save(user);
+		return "password updated";
 	}
 }
