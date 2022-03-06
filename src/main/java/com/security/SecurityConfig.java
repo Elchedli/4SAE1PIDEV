@@ -38,7 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/user/**").access("hasRole('ADMIN')");
 		http.authorizeRequests().antMatchers("/invitation/**").access("hasRole('COMPANY')");
 		http.authorizeRequests().antMatchers("/forgetPassword/**").permitAll();
-
+		/********************************************Meriem **********************************************/
+		http.authorizeRequests()
+				.antMatchers("/voyage/addVoyage", "/voyage/updateVoyage/**", "/voyage/deleteVoyage/**",
+						"/voyage/priceFromDate/**", "/voyage/priceRecap/**", "/voyage/addEmployee/**", "/voyage/afficherPDF/**")
+				.access("hasRole('COMPANY')");
+		http.authorizeRequests().antMatchers("/voyage/getVoyages").access("hasRole('ADMIN')");
+		http.authorizeRequests().antMatchers("/voyage/findVDestionation/**", "/voyage/date/**").permitAll();
+		http.authorizeRequests()
+				.antMatchers("/voyage/matchProfession/**", "/voyage/MatchUsers/**", "/voyage/SuggestionUser/**")
+				.access("hasRole('EMPLOYEE')");
 
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(new CustomAuthenticationFIlter(authenticationManagerBean()));

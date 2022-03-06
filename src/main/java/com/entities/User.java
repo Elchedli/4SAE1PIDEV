@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
@@ -70,7 +72,20 @@ public class User implements Serializable, UserDetails {
 	@JsonIgnore
 	List<UserMemberships> employees;
 	
-	
+	/*****************Meriem*********************************/
+	@JsonIgnore
+	@OneToMany(mappedBy="entreprise")
+	List<Voyage> voyagesEntre;
+    @JsonIgnore
+	@ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
+	List<Voyage> voyagesEmpl;
+    @JsonIgnore
+    @ManyToMany
+    private List<User> friends;
+	/***********************Oussema***********************************/
+    @JsonIgnore
+	@OneToOne
+	Profile profile;
 	
 
 	public User(String username, String email, String password) {
