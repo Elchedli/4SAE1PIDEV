@@ -47,7 +47,7 @@ public class User implements Serializable {
 	List<Invitation> invitations;
 
 
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user",cascade ={CascadeType.REMOVE,CascadeType.PERSIST} )
 	private List<Reclamation> reclamations;
 
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

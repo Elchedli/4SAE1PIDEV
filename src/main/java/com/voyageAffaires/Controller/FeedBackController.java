@@ -3,7 +3,10 @@ package com.voyageAffaires.Controller;
 import com.voyageAffaires.Services.FeedBackService;
 import com.voyageAffaires.entities.FeedBack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -34,13 +37,19 @@ public class FeedBackController {
     }
 
     @PostMapping("/add")
-    public FeedBack addfeedBack(@RequestBody FeedBack feedBack){
-        return  feedBackService.addFeedback(feedBack);
+    public ResponseEntity<FeedBack> addfeedBack(@RequestBody FeedBack feedBack)throws Exception{
+        if(feedBack.getDateFeedBack()==null){
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,"Date must be not null");
+        }else if(feedBack.getMessage().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,"Message must be not empty");
+        }
+        return  new ResponseEntity<>(feedBackService.addFeedback(feedBack),HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{idFeedback}")
-    public FeedBack updatefeedBack(@RequestBody FeedBack feedBack,@PathVariable  Long idFeedback){
-        return feedBackService.updateFeedback(feedBack,idFeedback);
+    public ResponseEntity<FeedBack> updatefeedBack(@RequestBody FeedBack feedBack,@PathVariable  Long idFeedback) throws Exception{
+
+        return new ResponseEntity<>(feedBackService.updateFeedback(feedBack,idFeedback),HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete")

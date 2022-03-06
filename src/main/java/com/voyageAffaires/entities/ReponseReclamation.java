@@ -7,29 +7,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "feed_back")
-public class FeedBack {
+@Table(name = "reponse_reclamation")
+public class ReponseReclamation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_feed", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
-    private String message;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateFeedBack;
-
+    private String reponse;
     @ManyToOne
     @JsonIgnore
-    private User user;
-
-
-
+    private Reclamation reclamation;
 
 }
