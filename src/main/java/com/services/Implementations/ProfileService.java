@@ -1,6 +1,7 @@
 package com.services.Implementations;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -33,11 +34,12 @@ public class ProfileService implements IProfile {
 		String randomCode = RandomString.make(64);
 		profile.setVerificationCode(randomCode);
 		profile.setEnabled(false);
-
-		pr.save(profile);
+		profile.setCreatedTime(new Date());
+		
 
 		sendVerificationEmail(profile, siteURL);
-		System.out.println("envoyé");
+		System.out.println("profile has been added with success -- Confirmation mail");
+		pr.save(profile);
 		/*
 		 * 2eme methode
 		 * 
@@ -170,7 +172,7 @@ public class ProfileService implements IProfile {
 		}
 	    
 	    content = content.replace("[[name]]", profile.getNom());
-	    String verifyURL = siteURL + "/profile/verify?code=" + profile.getVerificationCode();
+	    String verifyURL = siteURL + "/profile/verify/" + profile.getVerificationCode();
 	    
 	    content = content.replace("[[URL]]", verifyURL);
 	     

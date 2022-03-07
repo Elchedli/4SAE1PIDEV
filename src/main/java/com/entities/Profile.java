@@ -12,7 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.websocket.Decoder.Binary;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Email;
 
 import com.enums.Countries;
 import com.enums.Language;
@@ -41,26 +45,36 @@ public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idProfile;
+	@NotBlank(message = " LastName is required")
 	String nom;
+	@NotBlank(message = " FirstName is required")
 	String prenom;
+	@NotBlank(message = " Email is required")
+	@Email
 	String Email;
 	@Enumerated(EnumType.STRING)
 	Salutation salutation;
+	//@NotEmpty(message = "Birthdate is required")
+	@Temporal(TemporalType.DATE)
 	Date birthdate;
 	@Enumerated(EnumType.STRING)
 	Sex sex;
 	@Enumerated(EnumType.STRING)
 	Countries country;
 	String city;
+	@NotBlank(message = " Address is required")
 	String address;
 	String photo;
 	int suffix;
+	//@NotEmpty(message = " Phone number is required")
 	int phone;
 	int phone2;
+	
 	String bio;
 	String profession;
 	String nationality;
 	String activity;
+	boolean deleted;
 	boolean enabled;
 	@Enumerated(EnumType.STRING)
 	Language language;

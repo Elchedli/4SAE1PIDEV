@@ -1,11 +1,11 @@
 package com.services.Implementations;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.websocket.Encoder.Binary;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.entities.Company;
-
 import com.repositories.CompanyRepository;
 import com.services.Interfaces.ICompany;
 
@@ -36,15 +35,18 @@ public class CompanyService implements ICompany {
 	public void ajouterCompany(Company company, String siteURL) {
 		
 		// Verification
+		if (isEmailUnique(company.getEmail())){
 				String randomCode = RandomString.make(64);
 				company.setVerificationCode(randomCode);
 				company.setEnabled(false);
-				
+				company.setCreatedTime(new Date());
 				cr.save(company);
-
 				sendVerificationEmail(company, siteURL);
-				System.out.println("envoyé");
-		cr.save(company);
+				System.out.println("Compony profile has been added with success -- Confirmation mail");
+		cr.save(company);}
+		else {
+			System.out.println("This profile already exists ...!");
+		}
 		/*
 		String nom=company.getNameCompany();
 		String email = company.getEmail();
@@ -81,8 +83,16 @@ public class CompanyService implements ICompany {
 	
 
 	@Override
-	public void deleteCompany(int id) {
+	public boolean deleteCompany(int id) {
 		cr.deleteById(id);
+		
+		return true;
+	}
+	public String removeCompany(int id) {
+		cr.deleteById(id);
+		String p = "company effacé";
+		return  p;
+		
 		
 	}
 
@@ -121,7 +131,7 @@ public class CompanyService implements ICompany {
 	@Override
 	public String addPhoto(String title, MultipartFile file) {
 		
-		Company logo = new Company();
+		//Company logo = new Company();
 		//logo.setLogo(new Binary(file.getBytes()));
 		//logo= cr.insert();
 		return null; //logo.getIdCompany();
@@ -156,7 +166,7 @@ public class CompanyService implements ICompany {
 		}
 	    
 	    content = content.replace("[[name]]", company.getNameCompany());
-	    String verifyURL = siteURL + "/company/verify?code=" + company.getVerificationCode();
+	    String verifyURL = siteURL + "/company/verify/"+company.getVerificationCode();
 	    
 	    content = content.replace("[[URL]]", verifyURL);
 	     
