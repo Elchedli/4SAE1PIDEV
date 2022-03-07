@@ -51,11 +51,11 @@ public class ProfileController {
 		return crr.retriveCompanyById(CompanyId);
 	}
 	@PostMapping("/add-Company")
-	public String  addCompany(@RequestPart Company p, HttpServletRequest request,@RequestParam("image") MultipartFile picture) throws IOException {
-		String fileName = StringUtils.cleanPath(picture.getOriginalFilename()); 
-		p.setLogo(picture.getBytes());
-		String uploadDir = "CompaniesLogo/" + p.getNameCompany()+ p.getCreatedTime();
-		FileUploadUtil.saveFile(uploadDir, fileName, picture);
+	public String  addCompany(@RequestPart Company p, HttpServletRequest request/*,@RequestParam("image") MultipartFile picture*/) throws IOException {
+		//String fileName = StringUtils.cleanPath(picture.getOriginalFilename()); 
+		//p.setLogo(picture.getBytes());
+		//String uploadDir = "CompaniesLogo/" + p.getNameCompany()+ p.getCreatedTime();
+		//FileUploadUtil.saveFile(uploadDir, fileName, picture);
 		
 		 crr.ajouterCompany(p, getSiteURL(request));
 		 System.out.print("profile ajouté");

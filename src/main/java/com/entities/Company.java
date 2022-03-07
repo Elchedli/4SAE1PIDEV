@@ -11,13 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
-import javax.websocket.Encoder.Binary;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import com.enums.Countries;
 import com.enums.Language;
 import com.enums.LegalStatus;
 import com.enums.Taille;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,23 +44,30 @@ public class Company {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	int idCompany;
+	@NotBlank(message = "Company Name is required!")
 	String nameCompany;
+	@Column(unique = true)
+	@NotBlank(message = "Email is required!")
 	String Email;
 	String city;
 	@Enumerated(EnumType.STRING)
+	//@NotEmpty(message = "Country is required!")
 	Countries country;
 	String street;
 	int postalCode;
 	String webAdress;
+	@NotBlank(message = "Contact Person is required!")
 	String contactPerson;
 	String positionInCompany;
-	@Lob()
-	byte[] logo;
+	//@JsonIgnore
+	//@Lob()
+	//byte[] logo;
 	int phone;
 	int fax;
 	int suffix;
 	@Enumerated(EnumType.STRING)
 	LegalStatus status;
+	@Temporal(TemporalType.DATE)
 	Date yearEstablished;
 	@Enumerated(EnumType.STRING)
 	Taille type; 
