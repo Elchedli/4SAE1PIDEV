@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.entity.Ad;
@@ -56,6 +57,12 @@ public class AdServiceImp implements AdService {
 	public List<Object[]> StatsAd() {
 		List<Object[]> datas = RepoAd.listerStats();
 		return datas;
+	}
+	
+	@Scheduled(fixedDelay = 30000)
+	public void TotalAds() {
+		int datas = RepoAd.countAds();
+		System.out.println("il y a "+datas+" publicitées");
 	}
 	
 	

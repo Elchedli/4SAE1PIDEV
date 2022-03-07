@@ -20,13 +20,4 @@ public interface NewsletterRepository extends CrudRepository<Newsletter,Integer>
 	List<Newsletter> listerNewsCity(@Param("type") ArticleRegion type,@Param("countries") String country,@Param("city") String city);
 	@Query("Select news From Newsletter news ORDER BY news.vues DESC")
 	List<Newsletter> listerNewsViews();
-//	@Query("Select dc From DataCenter dc where dc.dateFabriquation > '2019-11-01'")
-//	List<DataCenter> listerDataCenter();
-//	List<DataCenter> findByespaceLibreDisqueGreaterThan(int total);
-//	@Query("Select c from Client c join c.clboutiques bs where bs.id = :idboutique")
-//	List<Client> listerClients(@Param("idboutique") long idboutique);
-//	@Query("Select c FROM Client c join c.clboutiques bs where bs.categorie = :category")
-//	List<Client> clientsCategory(@Param("category") Categorie categorie);
-//	@Query("Select COUNT(*) FROM Client c where c.genre = :genre")
-//	int nbreByGenre(@Param("genre") Genre genre);
 }

@@ -13,20 +13,13 @@ import com.entity.Profile;
 public interface ProfileRepository extends CrudRepository<Profile,Integer>{
 	Profile findByUsername(String username);
 	@Query(
-			value = "select * from profile p where p.nom LIKE '%:nom%' AND p.prenom LIKE '%:prenom%'",
+			value = "select * from profile p where p.nom LIKE %:name% AND p.prenom LIKE %:prename%",
 			nativeQuery = true
 	)
-	List<Profile> listerPeople(@Param("nom") String nom,@Param("prenom") String prenom);
-//	@Query(
-//			value = "select * from profile where nom NOT LIKE '%:nom%' AND prenom NOT LIKE '%:prenom%';",
-//			nativeQuery = true
-//	)
-//	List<Profile> listerPeopleInverse(@Param("nom") String nom,@Param("prenom") String prenom);
-//	List<DataCenter> findByespaceLibreDisqueGreaterThan(int total);
-//	@Query("Select c from Client c join c.clboutiques bs where bs.id = :idboutique")
-//	List<Client> listerClients(@Param("idboutique") long idboutique);
-//	@Query("Select c FROM Client c join c.clboutiques bs where bs.categorie = :category")
-//	List<Client> clientsCategory(@Param("category") Categorie categorie);
-//	@Query("Select COUNT(*) FROM Client c where c.genre = :genre")
-//	int nbreByGenre(@Param("genre") Genre genre);
+	List<Profile> listerPeople(@Param("name") String nom,@Param("prename") String prenom);
+	@Query(
+			value = "select * from profile where nom NOT LIKE %:name% AND prenom NOT LIKE %:prename%",
+			nativeQuery = true
+	)
+	List<Profile> listerPeopleInverse(@Param("name") String nom,@Param("prename") String prenom);
 }

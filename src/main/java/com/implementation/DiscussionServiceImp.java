@@ -85,20 +85,24 @@ public class DiscussionServiceImp implements DiscussionService {
 	@Override
 	public List<Profile> FiltrerProfiles(String username, String nomprenom) {
 		List<Discussion> discUser = ListeDiscussion(username);
-		String[] newdata = nomprenom.split(" ");
+		 String[] newdata = {nomprenom," "};
+		if(nomprenom.indexOf(' ') != -1) newdata = nomprenom.split(" ");
 //		List<Profile> profileSearch = (List<Profile>) RepoProfile.findAll();
+//		System.out.println("nom : "+newdata[0]+" prenom : "+newdata[1]);
 		List<Profile> profileSearch = (List<Profile>) RepoProfile.listerPeople(newdata[0], newdata[1]);
-//		List<Profile> profileSearchInverse = RepoProfile.listerPeopleInverse(newdata[0], newdata[1]);
+//		System.out.println("datas : "+profileSearch);
+		List<Profile> profileSearchInverse = RepoProfile.listerPeopleInverse(newdata[0], newdata[1]);
+		System.out.println("datas : "+profileSearchInverse);
 		List<Profile> filtered = new ArrayList<>();
 		discUser.forEach(element -> {
 			Profile prof = element.getConversation().get(0).getUsername().compareTo(username) != 0 ? element.getConversation().get(0) : element.getConversation().get(1);
 			prof.setFriend(true);
 			filtered.add(prof);
 			if(profileSearch.contains(prof)) profileSearch.remove(prof);
-//			if(profileSearchInverse.contains(prof)) profileSearchInverse.remove(prof);
+			if(profileSearchInverse.contains(prof)) profileSearchInverse.remove(prof);
 		});
 		filtered.addAll(profileSearch);
-//		filtered.addAll(profileSearchInverse);
+		filtered.addAll(profileSearchInverse);
 		return filtered;
 	}
 
