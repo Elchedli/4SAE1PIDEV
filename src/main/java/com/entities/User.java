@@ -67,10 +67,10 @@ public class User implements Serializable, UserDetails {
 	List<Invitation> invitations;
 	@OneToOne
 	@JsonIgnore
-	UserMemberships company;
+	User company;
 	@OneToMany
 	@JsonIgnore
-	List<UserMemberships> employees;
+	List<User> employees;
 	
 	/*****************Meriem*********************************/
 	@JsonIgnore

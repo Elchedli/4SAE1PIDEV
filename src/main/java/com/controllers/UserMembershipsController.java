@@ -26,7 +26,7 @@ public class UserMembershipsController {
 
 	@PutMapping("/addEmployeeToCompany")
 	public String addEmployeeToCompany(@RequestBody Emails emails) {
-		return userMembershipsService.addEmployeeToCompany(emails.getEmployeesEmails(), emails.getCompanyEmail());
+		return userMembershipsService.addEmployeeToCompany(emails.getEmployeeEmail(), emails.getCompanyEmail());
 	}
 
 	@PutMapping("/addCompanyToEmployee")

@@ -389,29 +389,19 @@ public class VoyageServiceImpl implements IVoyageService {
 	public List<User> SuggestionUser(Long id) throws IOException {
 		User user = userRepository.findById(id).orElse(null);
 		String profession = user.getProfile().getProfession();
-		List<Voyage> voyageOfUser = user.getVoyagesEmpl();
 		List<Voyage> voyages = voyageRepository.findAll();
 		List<User> usersToDisplay = new ArrayList<User>();
 		// Calendar calendar = Calendar.getInstance();
 
-		if (usersToDisplay.size() != 0) {
-			// same voyage ou same date ou same place + same profession
-			for (Voyage v : voyages) {
-				for (User u : v.getEmployees()) {
-					if (profession.contains(u.getProfile().getProfession())) {
+		for (Voyage v : voyages)
+		{
+				for (User u : v.getEmployees())
+				{	
+					if (profession.contains(u.getProfile().getProfession())&(u.getId()!=user.getId()))
+					{
 						usersToDisplay.add(u);
-						System.out.println("sameplace + samework");
 					}
 				}
-			}
-		}
-
-		else {
-			for (Voyage v : voyageOfUser) {
-				for (User u : v.getEmployees()) {
-					usersToDisplay.add(u);
-				}
-			}
 		}
 		/*
 		 * for (Voyage v : voyages) { int x=0; for (Voyage VoUs : voyageOfUser)
