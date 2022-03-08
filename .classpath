@@ -27,8 +27,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/RainHan/Desktop/New folder/java-google-speech-api-V2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/RainHan/Desktop/New folder/java-google-speech-api-V2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/RainHan/Desktop/New folder/java-google-speech-api-V2.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Desktop/api/java-google-speech-api-V2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Desktop/api/java-google-speech-api-V2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ASUS/Desktop/api/java-google-speech-api-V2.1-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

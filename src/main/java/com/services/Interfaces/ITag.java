@@ -2,7 +2,6 @@ package com.services.Interfaces;
 
 import java.util.List;
 
-import com.entities.Post;
 import com.entities.Tag;
 
 public interface ITag {
