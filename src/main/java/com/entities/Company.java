@@ -41,7 +41,7 @@ import lombok.experimental.FieldDefaults;
 public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int idCompany;
+	Long idCompany;
 	@NotBlank(message = "Company Name is required!")
 	String nameCompany;
 	@Column(unique = true)

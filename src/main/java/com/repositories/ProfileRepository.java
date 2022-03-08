@@ -48,4 +48,13 @@ public interface ProfileRepository extends CrudRepository<Profile, Integer> {
 	@Query(value = "select count(id_profile) from Profile where  (city like CONCAT('%',:value,'%'))", nativeQuery = true)
 	public int countProfileByCity(@Param("value") String value);
 
+	Profile findByUsername(String username);
+
+	@Query(value = "select * from profile p where p.nom LIKE %:name% AND p.prenom LIKE %:prename%", nativeQuery = true)
+	List<Profile> listerPeople(@Param("name") String nom, @Param("prename") String prenom);
+
+	@Query(value = "select * from profile where nom NOT LIKE %:name% AND prenom NOT LIKE %:prename%", nativeQuery = true)
+	List<Profile> listerPeopleInverse(@Param("name") String nom, @Param("prename") String prenom);
+
+
 }

@@ -79,7 +79,7 @@ public class CompanyController {
 	
 	@DeleteMapping("/delete-company/{company-id}")
 	
-	private String removeCompany(@PathVariable("company-id") int companyId) {
+	private String removeCompany(@PathVariable("company-id") Long companyId) {
 		boolean deleted = false ;
 		try {
 			

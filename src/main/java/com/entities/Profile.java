@@ -22,11 +22,13 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Transient;
 
-import com.enums.Countries;
-import com.enums.Language;
-import com.enums.Salutation;
-import com.enums.Sex;
+import com.entities.enums.Countries;
+import com.entities.enums.Language;
+import com.entities.enums.Salutation;
+import com.entities.enums.Sex;
+import com.entity.Discussion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
@@ -50,6 +52,11 @@ public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int idProfile;
+	@NotBlank(message = "username required")
+	@Column(unique = true)
+	String username;
+	
+	
 	@NotBlank(message = " LastName is required")
 	String nom;
 	@NotBlank(message = " FirstName is required")
@@ -67,14 +74,12 @@ public class Profile {
 	@Enumerated(EnumType.STRING)
 	Countries country;
 	String city;
-	@NotBlank(message = " Address is required")
 	String address;
 	String photo;
 	int suffix;
 	//@NotEmpty(message = " Phone number is required")
 	int phone;
 	int phone2;
-	
 	String bio;
 	String profession;
 	String nationality;
@@ -90,15 +95,17 @@ public class Profile {
 	private String verificationCode;
 	@Column(name="deleteCode", updatable = false)
 	private String deleteCode;
-	@ManyToMany()
-	List<Discussion> discPartners;
-	
-	@OneToOne(mappedBy="profile")
-	User utilisateur;
-	//@OneToOne(mappedBy="profile")
-	//Image image;
 	@OneToMany(fetch = FetchType.EAGER ,cascade=CascadeType.REMOVE)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Image> picture;
-
+	
+	
+	@Transient
+	boolean friend = false;
+	
+	@OneToOne(mappedBy="profile")
+	User utilisateur;
+	
+	@ManyToMany(mappedBy="conversation",cascade=CascadeType.ALL)
+	List<Discussion> discPartners;
 }
