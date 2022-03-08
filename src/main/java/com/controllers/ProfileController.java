@@ -1,5 +1,6 @@
 package com.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -96,13 +97,14 @@ public class ProfileController {
 	
 	// Email check
 	@PostMapping("/add-profile")
-	public String  addProfile(@Valid @RequestBody Profile p,Model model, HttpServletRequest request) throws MessagingException {	
+	public String  addProfile(@RequestBody Profile p,Model model, HttpServletRequest request) throws MessagingException {	
 		pr.ajouterProfile(p, getSiteURL(request));
 		String siteURL = getSiteURL(request);
+		if (pr.isEmailUnique(p.getEmail())) {
 		pr.sendVerificationEmail(p, siteURL);
-		//notificationService.sendEmail(user);
 		System.out.print("Mail sent to profile for info verification !");
 		return "register/register2";
+		} else { return "register/register";}
 	}
 	
 	
@@ -151,6 +153,7 @@ public class ProfileController {
 		System.out.println(p);
 		return "register/modifyCompany";
 	}
+	
 	
 }
 

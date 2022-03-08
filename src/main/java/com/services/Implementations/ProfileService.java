@@ -31,15 +31,20 @@ public class ProfileService implements IProfile {
 	@Override
 	public void ajouterProfile(Profile profile, String siteURL) {
 		// Verification
-		String randomCode = RandomString.make(64);
-		profile.setVerificationCode(randomCode);
-		profile.setEnabled(false);
-		profile.setCreatedTime(new Date());
-		
+		if(isEmailUnique(profile.getEmail())) {
+			String randomCode = RandomString.make(64);
+			profile.setVerificationCode(randomCode);
+			profile.setEnabled(false);
+			profile.setCreatedTime(new Date());
+			
 
-		sendVerificationEmail(profile, siteURL);
-		System.out.println("profile has been added with success -- Confirmation mail");
-		pr.save(profile);
+			sendVerificationEmail(profile, siteURL);
+			System.out.println("profile has been added with success -- Confirmation mail");
+			pr.save(profile);
+		} else {
+			System.out.println("This profile already exists ...!");
+		}
+		
 		/*
 		 * 2eme methode
 		 * 

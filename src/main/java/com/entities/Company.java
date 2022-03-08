@@ -82,5 +82,7 @@ public class Company {
 	boolean enabled;
 	@OneToOne(mappedBy = "company")
 	User utilisateur;
+	@OneToOne(mappedBy = "company")
+	Image image;
 
 }
