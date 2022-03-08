@@ -3,25 +3,19 @@ package com.entities;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.enums.Countries;
 import com.enums.Language;
@@ -97,8 +91,8 @@ public class Profile {
 	User utilisateur;
 	//@OneToOne(mappedBy="profile")
 	//Image image;
-	@OneToMany(fetch = FetchType.EAGER ,cascade=CascadeType.REMOVE)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Image> picture;
+//	@OneToMany(fetch = FetchType.EAGER ,cascade=CascadeType.REMOVE)
+//	@Fetch(value = FetchMode.SUBSELECT)
+//	private List<Image> picture;
 
 }

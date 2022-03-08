@@ -1,17 +1,13 @@
 package com.Utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
+import java.io.*;
+import java.nio.file.*;
+ 
 import org.springframework.web.multipart.MultipartFile;
-
-public class FileUploadUtil {
-
-	public static void saveFile(String uploadDir, String fileName,
+ 
+public class FileUpload {
+     
+    public static void saveFile(String uploadDir, String fileName,
             MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
          

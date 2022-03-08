@@ -1,5 +1,6 @@
 package com.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,14 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.Utils.FileUpload;
 import com.entities.Company;
 import com.services.Implementations.CompanyService;
 
@@ -28,10 +33,15 @@ public class CompanyController {
 	CompanyService service;
 	
 	@PostMapping("/add-company")
-	public String addCompany(@Valid @RequestBody Company c,Model model, HttpServletRequest request) {
+	public String addCompany(@Valid @RequestPart Company c,@RequestParam("image") MultipartFile multipartFile,Model model, HttpServletRequest request) throws IOException {
 		service.ajouterCompany(c, getSiteURL(request));
 		String siteURL = getSiteURL(request);
 		if (service.isEmailUnique(c.getEmail())) {
+			
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			c.setLogo(fileName);
+			String uploadDir = "Companies-photos/" + c.getNameCompany();
+			FileUpload.saveFile(uploadDir, fileName, multipartFile);
 			
 			service.sendVerificationEmail(c, siteURL);
 			System.out.println("Mail sent to company for info verification !");
@@ -42,6 +52,7 @@ public class CompanyController {
 		
 
 	}
+	 
 	private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
@@ -69,8 +80,17 @@ public class CompanyController {
 	}
 	
 	@PutMapping("/modify-company")
-	public String modifyCompany( @RequestBody Company c) {
+	public String modifyCompany( @RequestPart Company c,@RequestParam("image") MultipartFile multipartFile,Model model) throws IOException {
+		
+		
+		
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		c.setLogo(fileName);
+		String uploadDir = "Companies-photos/" + c.getNameCompany();
+		FileUpload.saveFile(uploadDir, fileName, multipartFile);
+		
 		service.updateCompany(c);
+		
 		String p = "Company "+ c.getNameCompany()+" has been modified";
 		System.out.println(p);
 		//retour html update
