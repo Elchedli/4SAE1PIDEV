@@ -38,7 +38,7 @@ public class CommentImpl implements IComment {
 	public void addComment(Comment c) throws IOException  {
 
 		
-		System.out.println(cr.count());	
+	
 	    
 	    	  File file = new File("forum/spam"+ c.getPost().getId()+".txt");
 	            if (file.createNewFile()) {
@@ -79,7 +79,6 @@ public class CommentImpl implements IComment {
 			}
 		
 			
-			System.out.println(cr.count());	
 		}
 	
 	
@@ -131,8 +130,8 @@ public class CommentImpl implements IComment {
 	}
 
 	@Override
-	public List<Comment> commentsUser(int idu) {
-		System.out.println("11111");
+	public List<Comment> commentsUser(long idu) {
+
 		List<Comment> comments = new ArrayList<Comment>();
 	/*	if (cr != null)
 			for (Comment c : cr.findAll()) {
@@ -145,7 +144,7 @@ public class CommentImpl implements IComment {
 	}
 
 	@Override
-	public List<Comment> commentsUserByDate(int idu) {
+	public List<Comment> commentsUserByDate(long idu) {
 		List<Comment> comments = new ArrayList<Comment>();
 		for (Comment c : cr.getAllComments()) {
 			if (c.getUser().getId() == idu)
@@ -266,7 +265,7 @@ public class CommentImpl implements IComment {
 				System.out.println("words[0=>"+wordss[0]+"\n");
 				System.out.println("c.getUser().getId())="+c.getUser().getId());
 				// Search for the word
-				if (wordss[0].equals(Integer.toString(c.getUser().getId()))) {
+				if (wordss[0].equals(Long.toString(c.getUser().getId()))) {
 					System.out.print("Spam exists");
 					p--;
 				}

@@ -219,7 +219,7 @@ public class PostImpl implements IPost {
 		//if (p.getFollowers() != null) {
 			List<Integer> l = stringToList(p.getFollowers());
 		
-			for (int i : l) {
+			for (long i : l) {
 				u = ur.findById(i).orElse(null);
 				System.out.println("id=" + i);
 				System.out.println("@=" + u.getEmail());

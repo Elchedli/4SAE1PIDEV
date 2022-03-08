@@ -15,8 +15,8 @@ public interface IComment {
 	public void deleteComment(int idc);
 	public List<Comment> comments();
 	public List<Comment> comments(Post p);
-	public List<Comment> commentsUser(int idu);
-	public List<Comment> commentsUserByDate(int idu);
+	public List<Comment> commentsUser(long idu);
+	public List<Comment> commentsUserByDate(long idu);
 
 	
 	public Set<Comment> commentsPost(int idp);
