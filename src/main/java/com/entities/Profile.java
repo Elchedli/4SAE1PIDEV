@@ -28,7 +28,6 @@ import com.entities.enums.Countries;
 import com.entities.enums.Language;
 import com.entities.enums.Salutation;
 import com.entities.enums.Sex;
-import com.entity.Discussion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;

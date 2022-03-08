@@ -9,17 +9,17 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class HelloServiceAspect {
-	@Before("execution(* com.implementation.AdServiceImp.StatsAd(..))")
+	@Before("execution(* com.services.Implementations.AdServiceImp.StatsAd(..))")
 	public void before(){
 		System.out.println("Avant execution du statistique.");
 	}
 	
-	@AfterReturning("execution(* com.implementation.AdServiceImp.StatsAd(..))")
+	@AfterReturning("execution(* com.services.Implementations.AdServiceImp.StatsAd(..))")
 	public void afterReturning(){
 		System.out.println("Retour execution de la fonction statistique");
 	}
 		
-	@After("execution(* com.implementation.AdServiceImp.StatsAd(..))")
+	@After("execution(* com.services.Implementations.AdServiceImp.StatsAd(..))")
 	public void after(){
 		System.out.println("Apres execution de la fonction statistique");
 	}
