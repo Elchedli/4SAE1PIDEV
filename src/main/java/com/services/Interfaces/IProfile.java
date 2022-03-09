@@ -15,9 +15,9 @@ public interface IProfile {
 	
 	Profile updateProfile(Profile profile);
 	Profile updateProfilePhoto(Profile profile);
-	Profile retriveProfileById(int id);
+	Profile retriveProfileById(Long id);
 	Profile retriveProfileByName(String nomProfile);
-	void deleteProfile(int id, String siteURL);
+	void deleteProfile(Long id, String siteURL);
 	void sendConfirmationEmail(Profile profile, String siteURL);
 	
 }

@@ -12,14 +12,14 @@ import org.springframework.stereotype.Repository;
 import com.entities.Profile;
 
 @Repository
-public interface ProfileRepository extends CrudRepository<Profile, Integer> {
+public interface ProfileRepository extends CrudRepository<Profile, Long> {
 
 	@Query(value = "SELECT * FROM Profile  WHERE email = ?1", nativeQuery = true)
 	public Profile findByEmail(String email);
 
 	@Modifying
 	@Query(value = "UPDATE Profile SET enabled = true WHERE idProfile = ?1", nativeQuery = true)
-	public void enable(Integer id);
+	public void enable(Long id);
 
 	@Query(value = "SELECT * FROM Profile  WHERE verification_Code = ?1", nativeQuery = true)
 	public Profile findByVerificationCode(String code);
@@ -47,5 +47,14 @@ public interface ProfileRepository extends CrudRepository<Profile, Integer> {
 
 	@Query(value = "select count(id_profile) from Profile where  (city like CONCAT('%',:value,'%'))", nativeQuery = true)
 	public int countProfileByCity(@Param("value") String value);
+
+	Profile findByUsername(String username);
+
+	@Query(value = "select * from profile p where p.nom LIKE %:name% AND p.prenom LIKE %:prename%", nativeQuery = true)
+	List<Profile> listerPeople(@Param("name") String nom, @Param("prename") String prenom);
+
+	@Query(value = "select * from profile where nom NOT LIKE %:name% AND prenom NOT LIKE %:prename%", nativeQuery = true)
+	List<Profile> listerPeopleInverse(@Param("name") String nom, @Param("prename") String prenom);
+
 
 }

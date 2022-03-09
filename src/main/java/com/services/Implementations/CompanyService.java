@@ -75,13 +75,13 @@ public class CompanyService implements ICompany {
 	}
 
 	@Override
-	public boolean deleteCompany(int id) {
+	public boolean deleteCompany(Long id) {
 		cr.deleteById(id);
 
 		return true;
 	}
 
-	public String removeCompany(int id) {
+	public String removeCompany(Long id) {
 		cr.deleteById(id);
 		String p = "company effacé";
 		return p;
@@ -108,7 +108,7 @@ public class CompanyService implements ICompany {
 	}
 
 	@Override
-	public Company retriveCompanyById(int id) {
+	public Company retriveCompanyById(Long id) {
 		Company p = cr.findById(id).get();
 		return p;
 	}

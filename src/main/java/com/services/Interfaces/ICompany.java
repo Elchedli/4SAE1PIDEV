@@ -11,7 +11,7 @@ import com.entities.Company;
 public interface ICompany {
 	public void ajouterCompany(Company company, String siteURL);
 	List<Company> retriveAllCompanys() ;
-	boolean deleteCompany(int id);
+	boolean deleteCompany(Long id);
 	public void sendVerificationEmail(Company company, String siteURL);
 	public boolean isEnabled();
 	public boolean isEmailUnique(String email);
@@ -19,8 +19,8 @@ public interface ICompany {
 	String addPhoto(String title, MultipartFile file);
 	Company updateCompany(Company company);
 	Company updateCompanyPhoto(Company company);
-	Company retriveCompanyById(int id);
+	Company retriveCompanyById(Long id);
 	Company retriveCompanyByName(String nomCompany);
-	public String removeCompany(int id);
+	public String removeCompany(Long id);
 
 }

@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Built-By: oh_zed
-Build-Jdk: 17.0.1
 Implementation-Title: voyageAffaires
 Implementation-Version: 0.0.1
+Built-By: RainHan
 Implementation-Vendor-Id: pi
-Implementation-URL: https://spring.io/projects/spring-boot/voyageAffaire
- s
+Build-Jdk: 1.8.0_60
+Implementation-URL: https://spring.io/projects/spring-boot/voyageAffai
+ res
 Created-By: Maven Integration for Eclipse
 

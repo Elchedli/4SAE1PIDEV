@@ -43,7 +43,7 @@ public class ProfileController {
 	}
 
 	@GetMapping("/retrieve-Profile/{Profile-id}")
-	public Profile retrieveProfile(@PathVariable("Profile-id") int profileId) {
+	public Profile retrieveProfile(@PathVariable("Profile-id")Long profileId) {
 
 		return pr.retriveProfileById(profileId);
 	}
@@ -80,7 +80,7 @@ public class ProfileController {
 	}
 
 	@DeleteMapping("/remove-profile/{profile-id}")
-	public String removeProfile(@PathVariable("profile-id") int profileId, HttpServletRequest request) {
+	public String removeProfile(@PathVariable("profile-id") Long profileId, HttpServletRequest request) {
 		pr.deleteProfile(profileId, getSiteURL(request));
 
 		String p = "Profile has been deleted !";

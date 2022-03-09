@@ -95,7 +95,7 @@ public class ProfileService implements IProfile {
 		}
 	}
 
-	public void deleteProfile(int id, String siteURL) {
+	public void deleteProfile(Long id, String siteURL) {
 
 		String randomCode = RandomString.make(64);
 		try {
@@ -135,7 +135,7 @@ public class ProfileService implements IProfile {
 	}
 
 	@Override
-	public Profile retriveProfileById(int id) {
+	public Profile retriveProfileById(Long id) {
 		// TODO Auto-generated method stub
 		Profile p = pr.findById(id).get();
 		return p;

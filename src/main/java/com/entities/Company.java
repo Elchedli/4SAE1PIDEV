@@ -15,10 +15,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import com.enums.Countries;
-import com.enums.Language;
-import com.enums.LegalStatus;
-import com.enums.Taille;
+import com.entities.enums.Countries;
+import com.entities.enums.Language;
+import com.entities.enums.LegalStatus;
+import com.entities.enums.Taille;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
@@ -41,7 +41,7 @@ import lombok.experimental.FieldDefaults;
 public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int idCompany;
+	Long idCompany;
 	@NotBlank(message = "Company Name is required!")
 	String nameCompany;
 	@Column(unique = true)

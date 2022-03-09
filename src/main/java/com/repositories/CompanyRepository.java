@@ -14,14 +14,14 @@ import com.entities.Company;
 
 
 @Repository
-public interface CompanyRepository extends CrudRepository<Company, Integer>{
+public interface CompanyRepository extends CrudRepository<Company, Long>{
 
 	@Query(value = "SELECT * FROM Company WHERE email = ?1", nativeQuery = true)
 	public Company findByEmail(String email);
 	
 	@Modifying
 	@Query(value = "UPDATE Company p SET p.enabled = true WHERE p.idCompany = ?1", nativeQuery = true)
-	public void enable(Integer id);
+	public void enable(Long id);
 	
 	@Query(value ="SELECT * FROM Company  WHERE verification_code = ?1", nativeQuery = true)
 	public Company findByVerificationCode(String code) ;
