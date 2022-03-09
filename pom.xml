@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<version>5.5.2</version><!--$NO-MVN-MAN-VER$ -->
+			<version>5.5.2</version>$NO-MVN-MAN-VER$
 			<scope>test</scope>
 		</dependency>
 		<dependency>

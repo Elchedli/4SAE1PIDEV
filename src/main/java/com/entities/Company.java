@@ -12,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import com.entities.enums.Countries;
 import com.entities.enums.Language;
@@ -59,8 +59,9 @@ public class Company {
 	String contactPerson;
 	String positionInCompany;
 	// @JsonIgnore
-	// @Lob()
-	// byte[] logo;
+	//@Column(name = "logo", length = Integer.MAX_VALUE, nullable = true)
+	//@Lob()
+	String logo;
 	int phone;
 	int fax;
 	int suffix;
@@ -82,7 +83,8 @@ public class Company {
 	boolean enabled;
 	@OneToOne(mappedBy = "company")
 	User utilisateur;
-	@OneToOne(mappedBy = "company")
-	Image image;
+//	@OneToMany(fetch = FetchType.EAGER ,cascade=CascadeType.REMOVE)
+//	@Fetch(value = FetchMode.SUBSELECT)
+//	private List<Image> picture;
 
 }

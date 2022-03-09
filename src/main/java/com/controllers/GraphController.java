@@ -74,6 +74,19 @@ public class GraphController {
 		List<Profile> listProfile = pr.searchByCity(city);
 		return listProfile;
 	}
+	@GetMapping("/ProfileByCountry/{country}")
+	public List<Profile> profileByCountry(@PathVariable String country) {
+		List<Profile> listProfile = pr.searchByCountry(country);
+		return listProfile;
+	}
+	
+	
+	@GetMapping("/CompanyByCountry/{country}")
+	public List<Company> companyByCountry(@PathVariable String country) {
+		List<Company> listCompany = cr.searchByCountry(country);
+		return listCompany;
+	}
+
 
 	@GetMapping("/countProfileByCity/{city}")
 	public String countProfileByCity(@PathVariable String city) {

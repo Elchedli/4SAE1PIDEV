@@ -26,6 +26,7 @@ public class CompanyService implements ICompany {
 	private JavaMailSender mailSender;
 	@Autowired
 	CompanyRepository cr;
+	
 
 	@Override
 	public void ajouterCompany(Company company, String siteURL) {

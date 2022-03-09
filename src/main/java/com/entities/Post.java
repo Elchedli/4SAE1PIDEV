@@ -23,9 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
@@ -36,39 +34,36 @@ public class Post implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-private int id;
-@NotBlank(message = "Title is necessary")
-@Column(length = 100)
-private String title;
-@NotBlank(message = "Description is necessary")
-private String description;
-@Enumerated(EnumType.STRING)
-private Category category;
-@Enumerated(EnumType.STRING)
-private State state;
+	private int id;
+	@NotBlank(message = "Title is necessary")
+	@Column(length = 100)
+	private String title;
+	@NotBlank(message = "Description is necessary")
+	private String description;
+	@Enumerated(EnumType.STRING)
+	private Category category;
+	@Enumerated(EnumType.STRING)
+	private State state;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	private Set<Comment> comment;
+	@JsonIgnore
+	// @NotBlank(message = "Owner must be included")
+	@ManyToOne
+	private User owner;
+	private String followers;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
 
-@OneToMany(cascade = CascadeType.ALL,mappedBy="post")
-private Set<Comment> comment;
-@JsonIgnore
-//@NotBlank(message = "Owner must be included")
-@ManyToOne
-private User owner;
-private String followers;
-@ManyToMany(cascade=CascadeType.ALL)
-@JsonIgnore
+	private Set<Tag> tag;
+	@Lob()
+	byte[] file;
+	// private Set<User> subscribers;
 
-private Set<Tag> tag;
-@Lob()
-byte[] file;
-//private Set<User> subscribers;
-
-public void addComment(Comment c)
-{
-	this.comment.add(c);
-}
-
+	public void addComment(Comment c) {
+		this.comment.add(c);
+	}
 
 }
