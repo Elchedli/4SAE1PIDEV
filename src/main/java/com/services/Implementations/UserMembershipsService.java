@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.Utils.EmailService;
 import com.entities.User;
-import com.entities.UserMemberships;
 import com.services.Interfaces.IUserMembershipsService;
 
 import lombok.AccessLevel;
@@ -27,23 +26,14 @@ public class UserMembershipsService implements IUserMembershipsService {
 		User company = userService.retrieveByEmail(companyEmail);
 		for(String s : employeesEmails){
 			User exists = userService.retrieveByEmail(s);
-			if(exists != null)
-				company.getEmployees().add(new UserMemberships(exists));
-			else{
+			if(exists != null){
+				company.getEmployees().add(exists);
+				exists.setCompany(company);
+			} else{
 				String link = "http://localhost:8083/voyageAffaires/registration/addEmployee";
 				emailService.send(s, "Sign up to join us.", emailService.buildEmail(s, "Click to the link to join us", link));
 			}
 		}
 		return "employees has joined your company";
 	}
-
-	@Override
-	public String addCompanyToEmployee(String employeeEmail, String companyEmail) {
-		User employee = userService.retrieveByEmail(employeeEmail);
-		User company = userService.retrieveByEmail(companyEmail);
-
-		employee.setCompany(new UserMemberships(company));
-		return "Company added to and employee";
-	}
-
 }

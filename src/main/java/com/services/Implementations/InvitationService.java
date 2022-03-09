@@ -12,6 +12,7 @@ import com.Utils.EmailService;
 import com.entities.Invitation;
 import com.entities.User;
 import com.entities.enums.Role;
+import com.entities.enums.Status;
 import com.repositories.InvitationRepository;
 import com.services.Interfaces.IInvitationService;
 
@@ -92,7 +93,11 @@ public class InvitationService implements IInvitationService {
 	}
 	
 	public void activateInvitation(String sujet){
-		invitationRepository.activate(sujet);
+		invitationRepository.activate(Status.ACTIVE,sujet);
+	}
+	
+	public List<Invitation> retrieveByUser(String email){
+		return invitationRepository.retrieveInvitationByUser(email);
 	}
 
 }

@@ -24,8 +24,8 @@ public class ForgetPasswordController {
 	ForgetPasswordService forgetPasswordService;
 
 	@PostMapping("/forgot_password")
-	public String processForgotPassword(String email) {
-		return forgetPasswordService.updateResetPasswordToken(email);
+	public String processForgotPassword(@RequestBody User user) {
+		return forgetPasswordService.updateResetPasswordToken(user.getEmail());
 	}
 
 	@GetMapping("/reset_password")

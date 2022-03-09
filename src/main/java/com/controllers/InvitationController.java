@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Utils.FileUpload;
 import com.entities.Invitation;
+import com.entities.User;
 import com.services.Implementations.InvitationService;
 
 import lombok.AccessLevel;
@@ -72,6 +73,11 @@ public class InvitationController {
 	public void activateInvitation(@RequestBody Subject subject) {
 		invitationService.activateInvitation(subject.getSujet());
 		
+	}
+	
+	@GetMapping("/retrieveByUser")
+	public List<Invitation> retrieveByUser(@RequestBody User user) {
+		return invitationService.retrieveByUser(user.getEmail());
 	}
 }
 

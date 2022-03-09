@@ -35,10 +35,13 @@ public class UserService implements IUserService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = retrieveByUsername(username);
-		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(user.getRole().getAuthority()));
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				authorities);
+		if(user.isEnabled() && user.isAccountNonLocked()){
+			Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+			authorities.add(new SimpleGrantedAuthority(user.getRole().getAuthority()));
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+					authorities);
+		} 
+		return null;
 	}
 
 	
@@ -91,5 +94,14 @@ public class UserService implements IUserService, UserDetailsService {
 	public List<User> retrieveAll() {
 		return (List<User>) userRepository.findAll();
 	}
+	
+	public String lockUser(String email) {
+		userRepository.lockUser(email);
+		return "User locked";
+	}
 
+	public String unlockUser(String email) {
+		userRepository.unlockUser(email);
+		return "User unlocked";
+	}
 }

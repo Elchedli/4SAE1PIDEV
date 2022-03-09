@@ -59,6 +59,16 @@ public class UserController {
 	public UserDetails loadUserByUsername(String username) {
 		return userService.loadUserByUsername(username);
 	}
+	
+	@PutMapping("/lockUser")
+	public String lockUser(@RequestBody User user) {
+		return userService.lockUser(user.getEmail());
+	}
+	
+	@PutMapping("/unlockUser")
+	public String unlockUser(@RequestBody User user) {
+		return userService.unlockUser(user.getEmail());
+	}
 
 }
 

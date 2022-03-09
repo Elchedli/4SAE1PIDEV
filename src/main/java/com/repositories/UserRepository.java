@@ -34,4 +34,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	@Query("update User u set u.enabled = TRUE where u.email= :email")
 	int enableUser(@Param("email") String email);
 
+	@Modifying
+	@Query("update User u set u.locked = TRUE where u.email= :email")
+	int lockUser(@Param("email") String email);
+	
+	@Modifying
+	@Query("update User u set u.locked = FALSE where u.email= :email")
+	int unlockUser(@Param("email") String email);
 }

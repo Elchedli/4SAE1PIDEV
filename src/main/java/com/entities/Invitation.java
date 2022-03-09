@@ -3,6 +3,8 @@ package com.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,6 +45,7 @@ public class Invitation implements Serializable {
 	@NotBlank(message = "Message required.")
 	String message;
 	String image;
+	@Enumerated(EnumType.STRING)
 	Status status = Status.WAITING;
 
 	public Invitation(String de, String pour, String sujet, String message, String image) {

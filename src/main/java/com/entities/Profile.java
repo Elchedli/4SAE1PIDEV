@@ -8,20 +8,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.Transient;
 
 import com.entities.enums.Countries;
@@ -94,10 +90,6 @@ public class Profile {
 	private String verificationCode;
 	@Column(name="deleteCode", updatable = false)
 	private String deleteCode;
-	@OneToMany(fetch = FetchType.EAGER ,cascade=CascadeType.REMOVE)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Image> picture;
-	
 	
 	@Transient
 	boolean friend = false;

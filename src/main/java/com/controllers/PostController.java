@@ -4,17 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import com.entities.Post;
-import com.entities.Tag;
-import com.repositories.PostRepository;
-import com.repositories.TagRepository;
-import com.services.Implementations.FileUploadUtil;
-import com.services.Interfaces.IComment;
-import com.services.Interfaces.IPost;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +19,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.util.StringUtils;
+
+import com.entities.Post;
+import com.entities.Tag;
+import com.repositories.PostRepository;
+import com.repositories.TagRepository;
+import com.services.Implementations.FileUploadUtil;
+import com.services.Interfaces.IComment;
+import com.services.Interfaces.IPost;
+
 import net.sf.extjwnl.JWNLException;
 //NULL fname w lname and affect isnt working
 @RestController

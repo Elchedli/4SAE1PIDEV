@@ -2,14 +2,6 @@ package com.controllers;
 
 import java.util.List;
 
-import com.entities.Post;
-import com.entities.Tag;
-import com.repositories.PostRepository;
-import com.repositories.TagRepository;
-import com.services.Implementations.GoogleTTS_Translate;
-import com.services.Interfaces.IPost;
-import com.services.Interfaces.ITag;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.entities.Tag;
+import com.repositories.TagRepository;
+import com.services.Implementations.GoogleTTS_Translate;
+import com.services.Interfaces.IPost;
+import com.services.Interfaces.ITag;
 
 @RestController
 @RequestMapping("/forum")

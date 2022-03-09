@@ -53,7 +53,7 @@ public class RegistrationService implements IRegistrationService {
 		String link = "http://localhost:8083/voyageAffaires/registration/confirm?token=" + token;
 		emailService.send(user.getEmail(), "Confirm your email.", emailService.buildEmail(user.getUsername(),
 				"Thank you for registering. Please click on the below link to activate your account:", link));
-		msg = "Company saved, please confirm your email.";
+		msg = "Admin saved, please confirm your email.";
 		}
 		return msg;
 	}

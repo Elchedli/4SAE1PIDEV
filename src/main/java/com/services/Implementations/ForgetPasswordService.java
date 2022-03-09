@@ -47,9 +47,10 @@ public class ForgetPasswordService implements IForgetPasswordService {
 	}
 	@Override
 	public String updatePassword(User user, String newPassword){
-		user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-		user.setResetPasswordToken(null);
-		userRepository.save(user);
+		User UserExist = userRepository.findByEmail(user.getEmail());
+		UserExist.setPassword(bCryptPasswordEncoder.encode(newPassword));
+		UserExist.setResetPasswordToken(null);
+		userRepository.save(UserExist);
 		return "password updated";
 	}
 }

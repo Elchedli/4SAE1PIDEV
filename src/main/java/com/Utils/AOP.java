@@ -39,7 +39,7 @@ public class AOP {
 		try
 		{
 			
-			FileWriter fileWriter = new FileWriter("likes.txt", true); //Set true for append mode
+			FileWriter fileWriter = new FileWriter("forum/likes.txt", true); //Set true for append mode
 			PrintWriter printWriter = new PrintWriter(fileWriter);
 			printWriter.println(joinpoint.getSignature().getName()+id+" "+today);  //New line
 			printWriter.close();

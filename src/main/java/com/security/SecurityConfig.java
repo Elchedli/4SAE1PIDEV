@@ -35,9 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers("/login").permitAll();
 		http.authorizeRequests().antMatchers("/registration/**").permitAll();
+		
 		http.authorizeRequests().antMatchers("/user/**").access("hasRole('ADMIN')");
 		http.authorizeRequests().antMatchers("/invitation/**").access("hasRole('COMPANY')");
 		http.authorizeRequests().antMatchers("/forgetPassword/**").permitAll();
+		http.authorizeRequests().antMatchers("/refreshToken/**").permitAll();
+
+		http.authorizeRequests().antMatchers("/UserMemberships/addCompanyToEmployee").access("hasRole('EMPLOYEE')");
+		http.authorizeRequests().antMatchers("/UserMemberships/addEmployeeToCompany").access("hasRole('COMPANY')");
+
 		/********************************************Chedli **********************************************/
 		http.authorizeRequests().antMatchers("/message/**").permitAll();
 		http.authorizeRequests().antMatchers("/acceuil/**").permitAll();
