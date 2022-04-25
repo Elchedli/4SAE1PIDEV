@@ -1,0 +1,38 @@
+<select class="form-select" aria-label="Region" [(ngModel)]="region">
+    <option value="Global">Global</option>
+    <option value="Nationnal">Nationnal</option>
+</select>
+<select class="form-select" aria-label="Type publicitée" [(ngModel)]="type">
+    <option value="Remise">Remise</option>
+    <option value="Forfait">Forfait</option>
+</select>
+<div [hidden]="region == 'Global'">
+    <input type="text" name="region" [(ngModel)]="place">
+</div>
+<button (click)="listAd()">Search</button>
+<table border="2">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Published</th>
+        <th>Delete</th>
+    </tr>
+    <tbody *ngFor="let p of listpub; let i=index">
+        <tr>
+            <!-- <td>p</td> -->
+            <td>{{p.titrePub}}</td>
+            <td>{{p.descriptionPub}}</td>
+            <td>{{p.imagePub}}</td>
+            <td>{{p.publishedago}}</td>
+            <td><button (click)="effacerAd(p.idPub)">Delete</button></td>
+        </tr>
+    </tbody>
+
+
+</table>
+<h1>Stats</h1>
+<p *ngFor="let stat of stats; let i=index">
+    country : {{stat[1]}} total : {{stat[0]}} percentage : {{stat[2]}}%
+    <!-- {{stat[0]}} -->
+</p>
