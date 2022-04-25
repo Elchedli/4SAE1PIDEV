@@ -1,14 +1,20 @@
-package pi.entity;
+package com.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.FutureOrPresent;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.enums.LastSender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,7 +24,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import pi.enums.LastSender;
 
 @Entity
 @Getter
@@ -30,14 +35,19 @@ import pi.enums.LastSender;
 @NoArgsConstructor
 public class Discussion {
 	@Id
-	String ref_disc;
-	@FutureOrPresent(message = "Date must be after today")
-	@Temporal(TemporalType.DATE)
+	String refdisc;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	Date dateDiscussion;
-	boolean vue_disc;
 	LastSender lastSender;
-	@ManyToMany(mappedBy = "discPartners") //only two people
-	List<Profile> talkers;
-	@OneToMany(mappedBy = "discussion")
+	boolean vue_disc;
+	@OneToMany(cascade=CascadeType.ALL)
+//	@ToString.Exclude
 	List<Messa> messages;
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	@ToString.Exclude
+	List<Profile> conversation;
+	@Transient
+	boolean friend;
 }

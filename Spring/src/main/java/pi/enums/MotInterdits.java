@@ -1,4 +1,4 @@
-package pi.enums;
+package com.enums;
 
 public enum MotInterdits {
 	abbo, abo, beeyotch, chinaman, chinamen, chink, coolie, crazie, crazy, crip, cuck, dago, daygo, dego, douchebag, dumb, eskimo, faggot, fatass, fatso, gash, gimp, golliwog, gook, goy, goyim, gyp, gypsy, halfbreed, heeb, hooker, idiot, insane, insanitie, insanity, jap, kaffer, kaffir, kaffre, kafir, kike, kraut, lame, lardass, lesbo, lunatic, mick, negress, negro, nig, nigguh, nip, pajeet, pickaninnie, pickaninny, prostitute, pussie, raghead, retard, sambo, shemale, skank, soyboy, spade, sperg, spic, spook, squaw, shitter, tard, tits, titt, trannie, tranny, wetback, wigger, wop, yid, zog, anal,

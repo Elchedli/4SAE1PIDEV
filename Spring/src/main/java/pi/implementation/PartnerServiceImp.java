@@ -1,12 +1,12 @@
-package pi.implementation;
+package com.implementation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pi.entity.Partner;
-import pi.repository.PartnerRepository;
-import pi.service.PartenaireService;
+import com.entity.Partner;
+import com.repository.PartnerRepository;
+import com.service.PartenaireService;
 @Service
 public class PartnerServiceImp implements PartenaireService {
 	@Autowired

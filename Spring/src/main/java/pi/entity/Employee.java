@@ -1,4 +1,4 @@
-package pi.entity;
+package com.entity;
 
 import java.util.Date;
 

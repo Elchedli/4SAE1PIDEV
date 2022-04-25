@@ -1,15 +1,14 @@
-package pi.implementation;
+package com.implementation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pi.entity.Recommandation;
-import pi.enums.Countries;
-import pi.enums.RecommandationAvis;
-import pi.enums.RecommandationCategory;
-import pi.repository.RecommandationRepository;
-import pi.service.RecommandationService;
+import com.entity.Recommandation;
+import com.enums.RecommandationAvis;
+import com.enums.RecommandationCategory;
+import com.repository.RecommandationRepository;
+import com.service.RecommandationService;
 @Service
 public class RecommandationServiceImp implements RecommandationService {
 	
@@ -30,15 +29,14 @@ public class RecommandationServiceImp implements RecommandationService {
 	}
 
 	@Override
-	public List<Recommandation> listRecommandation(RecommandationCategory RecCat, RecommandationAvis recavis) {
-		return RepoRecom.listerRecomFilter(RecCat,recavis);
+	public List<Recommandation> listRecommandation(RecommandationCategory RecCat) {
+		return RepoRecom.listerRecomFilter(RecCat);
 	}
 
 	@Override
-	public List<Recommandation> listRecommandationAvis(RecommandationCategory RecCat, Countries country,
-			RecommandationAvis recAvis) {
-		return RepoRecom.listerRecomFilterAvis(RecCat,recAvis,country);
-		// avec IP
+	public List<Recommandation> listRecommandationAvis(RecommandationCategory RecCat,RecommandationAvis recAvis,String country) {
+		if(country == "") return RepoRecom.listerRecomFilterAvis(RecCat,recAvis);
+		return RepoRecom.listerRecomFilterPays(RecCat,recAvis,country);
 	}
 
 
