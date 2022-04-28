@@ -1,0 +1,38 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+
+    "id": 1,
+  "nom": "oussama",
+  "prenom": "zribi",
+	"Email": "oussama.zribi@esprit.tn",
+	"birthdate": "10/01/2022",
+	"country": "Tunisia",
+  "city": "Tunis",
+	"address": "Ave liberté",
+	"photo": "img.jpg",
+	"suffix":"216",
+	"phone": "22001100",
+	"phone2": "22001111",
+	"bio":"this is bio",
+	"profession":"student",
+	"nationality":"Tunisian",
+	"activity":"IT",
+	"deleted": "0",
+	"enabled": "1",
+	"language": "Arabic"
+  }
+}
